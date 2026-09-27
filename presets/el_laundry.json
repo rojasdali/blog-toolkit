@@ -1,0 +1,48 @@
+{
+  "brand_name": "El Laundry",
+  "tagline": "Lavandería Moderna en Hialeah · Monedas y Lavado y Doblado",
+  "brand_voice": "Cálido, experto, servicial, 100% familiar y honesto. Enfoque en la comunidad trabajadora de Hialeah, combinando maquinaria comercial Electrolux moderna con la atención humana y respetuosa en tienda.",
+  "target_audience": "Familias locales, profesionales ocupados, anfitriones de Airbnb, negocios y restaurantes de Hialeah que buscan ahorrar tiempo o lavar prendas gigantes con total confianza.",
+  "location_context": {
+    "address": "2357 W 52nd St",
+    "city": "Hialeah",
+    "state": "FL",
+    "zip": "33016",
+    "landmark": "Plaza de Sedano's (Sedano's Plaza frente al estacionamiento)",
+    "parking": "Estacionamiento amplio y gratuito justo al frente",
+    "phone": "(786) 634-6292",
+    "hours": "Lun-Vie 8AM-9PM · Sáb-Dom 7AM-9PM (Último lavado 8:00 PM)",
+    "neighborhoods_served": ["Hialeah", "West Hialeah", "Miami Lakes", "Hialeah Gardens", "Palm Springs Mile"]
+  },
+  "services": [
+    "Lavado y Doblado (Wash & Fold) el mismo día ($1.40/lb Lun-Jue, $1.75/lb Vie-Dom)",
+    "Lavadoras Gigantes Electrolux de hasta 65 lbs para edredones King/Queen y cobijas pesadas ($9-$20)",
+    "Servicio Comercial de Lavandería para Airbnb, barberías, salones de belleza y uniformes",
+    "Lavandería de Monedas (Autoservicio) moderna, rápida y con aire acondicionado"
+  ],
+  "key_differentiators": [
+    "Negocio familiar 100% local con personal y administradora siempre presentes en tienda para ayudar",
+    "Lavadoras de alta velocidad que exprimen mejor y secadoras dobles que secan en la mitad del tiempo",
+    "Ambiente impecable, seguro, bien iluminado y con música agradable",
+    "Atención bilingüe con trato de familia"
+  ],
+  "forbidden_phrases": [
+    "laundry mat",
+    "tienda desatendida",
+    "sin personal",
+    "máquinas rotas",
+    "precios ocultos"
+  ],
+  "primary_language": "es",
+  "target_languages": ["es", "en"],
+  "author_name": "Equipo El Laundry",
+  "categories": [
+    { "slug": "wash-and-fold", "label_es": "Lavado y Doblado", "label_en": "Wash & Fold" },
+    { "slug": "comforters", "label_es": "Edredones y Ropa Pesada", "label_en": "Comforters & Heavy Items" },
+    { "slug": "self-service", "label_es": "Lavandería de Monedas", "label_en": "Coin Laundromat" },
+    { "slug": "commercial", "label_es": "Comercial y Airbnb", "label_en": "Commercial & Airbnb" },
+    { "slug": "care-guides", "label_es": "Guías de Cuidado", "label_en": "Fabric Care Guides" },
+    { "slug": "tips-and-life", "label_es": "Consejos y Ahorro", "label_en": "Tips & Life" }
+  ],
+  "posts_per_week": 1.5
+}
