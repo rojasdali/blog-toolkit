@@ -37,6 +37,33 @@ class ElLaundryAdapter:
         existing = self.get_existing_slugs()
         return planner.plan_calendar(weeks=weeks, existing_slugs=existing)
 
+    def curate_next_post(
+        self,
+        topic: str | None = None,
+        category: str | None = None,
+        target_date: str | None = None,
+        keywords: list[str] | None = None,
+    ) -> BlogPost:
+        """Curate and append the next scheduled or requested blog post."""
+        if not topic:
+            plan = self.plan_upcoming_schedule(weeks=4)
+            if not plan.topics:
+                raise ValueError("No planned topics available in the editorial schedule.")
+            next_topic = plan.topics[0]
+            topic = next_topic.topic
+            category = category or next_topic.category
+            target_date = target_date or next_topic.target_date
+            keywords = keywords or next_topic.target_keywords
+        elif not category:
+            category = "wash-and-fold"
+
+        return self.generate_and_sync(
+            topic=topic,
+            category=category,
+            target_date=target_date,
+            keywords=keywords,
+        )
+
     def generate_and_sync(
         self,
         topic: str,
