@@ -9,9 +9,9 @@ from blog_toolkit.core.types import BlogPost
 class GeminiClient:
     """Interface for invoking Gemini models to generate structured blog content."""
 
-    def __init__(self, api_key: str | None = None, model: str = "gemini-2.5-flash"):
+    def __init__(self, api_key: str | None = None, model: str | None = None):
         self.api_key = (api_key or os.getenv("GEMINI_API_KEY", "")).strip()
-        self.model = model
+        self.model = (model or os.getenv("GEMINI_MODEL") or "gemini-3.5-flash").strip()
 
     def generate_post_json(self, system_prompt: str, user_prompt: str) -> dict:
         """Call Gemini to generate a post conforming to BlogPost schema."""
