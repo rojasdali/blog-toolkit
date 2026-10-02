@@ -1,6 +1,7 @@
 """TypeScript exporter formatting posts for Next.js / React projects."""
 
 import json
+import re
 
 from blog_toolkit.core.types import BlogPost
 
@@ -22,6 +23,17 @@ class TypeScriptExporter:
                 item["callout"] = s["callout"]
             cleaned.append(item)
         return cleaned
+
+    @staticmethod
+    def _replace_canonical_phone(text: str) -> str:
+        phone_pattern = r"(?:\+1[-.\s]?)?\(?786\)?[-.\s]?803[-.\s]?8622"
+
+        def replacer(match):
+            content = match.group(1)
+            new_content = re.sub(phone_pattern, "${BUSINESS_PHONE_DISPLAY}", content)
+            return f"`{new_content}`"
+
+        return re.sub(r"\"([^\"\n]*" + phone_pattern + r"[^\"\n]*)\"", replacer, text)
 
     def export(self, post: BlogPost) -> str:
         """Convert BlogPost to a TypeScript code snippet."""
@@ -56,7 +68,7 @@ class TypeScriptExporter:
 
         # Convert to formatted JS/TS object code
         json_str = json.dumps(ts_obj, ensure_ascii=False, indent=2)
-        return json_str
+        return self._replace_canonical_phone(json_str)
 
     def append_to_posts_file(self, post: BlogPost, file_path: str) -> None:
         """Append the generated post into a Next.js posts.ts file."""
