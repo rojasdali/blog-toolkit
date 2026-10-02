@@ -1,6 +1,7 @@
 """Example: Generating a post and exporting to Next.js TypeScript format."""
 
 import os
+
 from blog_toolkit.core.ruleset import BrandRuleset
 from blog_toolkit.engine.generator import BlogGenerator
 from blog_toolkit.engine.types import GenerationRequest

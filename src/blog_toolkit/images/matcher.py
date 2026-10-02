@@ -32,11 +32,24 @@ class ImageMatcher:
         # 3. Fallback to first image
         return self.catalog.images[0]
 
-    def generate_ai_image_prompt(self, topic: str, category: str, brand_name: str) -> str:
+    def generate_ai_image_prompt(
+        self,
+        topic: str,
+        category: str,
+        brand_name: str,
+        visual_inspo: dict[str, str] | None = None,
+    ) -> str:
         """Generate high-converting prompt for AI image generators if needed."""
+        inspo = visual_inspo or {}
+        equipment = inspo.get(
+            "equipment",
+            "High-end Electrolux commercial washers and dryers in the background"
+            if "laundry" in brand_name.lower()
+            else "modern professional commercial equipment in the background",
+        )
         return (
-            f"Hyper-realistic editorial photo for a modern commercial laundromat named '{brand_name}'. "
-            f"Scene: {topic}. High-end Electrolux commercial washers and dryers in the background, "
+            f"Hyper-realistic editorial photo for '{brand_name}'. "
+            f"Scene: {topic}. {equipment}, "
             f"warm natural lighting, sparkling clean interior, 8k resolution, documentary photography style, "
             f"shot on Sony A7R V 35mm f/1.8, vibrant natural colors, authentic and inviting atmosphere."
         )
