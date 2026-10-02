@@ -51,7 +51,8 @@
     "architecture": "High ceiling with exposed silver spiral HVAC ductwork, bright daylight flat-panel LED fixtures, polished light gray commercial tile floors, clean spacious aisles.",
     "equipment": "Electrolux Professional commercial front-loaders with royal blue circular door rings and digital LED panels; double-stacked slate-gray commercial dryers.",
     "counter_station": "Light wood-grain laminate counter with dark slate vertical paneling, certified digital flat weight scale, sealed poly-wrapped clean laundry stacks.",
+    "machines_and_tables_activity": "MANDATORY: Tables and machines must ALWAYS have clothes. Washers must ALWAYS show active, rich white soap suds and bubbles through the circular door glass portholes (as in IMG_8663.jpg / IMG_8667.jpg). Never show empty machines or bare deserted tables.",
     "team_uniforms": "Navy blue or white crewneck t-shirts with official El Laundry branding; authentic friendly Hispanic staff reflecting Hialeah community.",
-    "negative_prompts": "rustic wood walls, dark dingy lighting, domestic white washers, top-loaders, graffiti, empty unstaffed facility, blonde models, retro European diner look"
+    "negative_prompts": "empty machines, empty tables, no soap suds, clear water with zero bubbles, rustic wood walls, dark dingy lighting, domestic white washers, top-loaders, graffiti, empty unstaffed facility, blonde models, retro European diner look"
   }
 }
