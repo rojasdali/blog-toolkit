@@ -46,8 +46,11 @@ class BrandRuleset(BaseModel):
     @classmethod
     def from_preset(cls, preset_name: str) -> "BrandRuleset":
         """Load a built-in brand preset by name."""
-        base_dir = Path(__file__).resolve().parent.parent.parent.parent / "presets"
-        preset_file = base_dir / f"{preset_name}.json"
+        pkg_presets = Path(__file__).resolve().parent.parent / "presets"
+        preset_file = pkg_presets / f"{preset_name}.json"
+        if not preset_file.exists():
+            base_dir = Path(__file__).resolve().parent.parent.parent.parent / "presets"
+            preset_file = base_dir / f"{preset_name}.json"
         if not preset_file.exists():
             raise FileNotFoundError(f"Preset '{preset_name}' not found at {preset_file}")
         return cls.from_file(preset_file)
