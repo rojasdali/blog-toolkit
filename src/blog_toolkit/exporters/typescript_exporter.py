@@ -8,6 +8,21 @@ from blog_toolkit.core.types import BlogPost
 class TypeScriptExporter:
     """Exports a BlogPost to a clean TypeScript object."""
 
+    @staticmethod
+    def _clean_sections(sections: list[dict]) -> list[dict]:
+        cleaned = []
+        for s in sections:
+            item = {
+                "heading": s["heading"],
+                "paragraphs": s["paragraphs"],
+            }
+            if s.get("bullets"):
+                item["bullets"] = s["bullets"]
+            if s.get("callout"):
+                item["callout"] = s["callout"]
+            cleaned.append(item)
+        return cleaned
+
     def export(self, post: BlogPost) -> str:
         """Convert BlogPost to a TypeScript code snippet."""
         raw_dict = post.model_dump()
@@ -26,7 +41,7 @@ class TypeScriptExporter:
                 "excerpt": raw_dict["es"]["excerpt"],
                 "keywords": raw_dict["es"]["keywords"],
                 "keyTakeaways": raw_dict["es"]["key_takeaways"],
-                "sections": raw_dict["es"]["sections"],
+                "sections": self._clean_sections(raw_dict["es"]["sections"]),
                 "categoryLabel": raw_dict["es"]["category_label"],
             },
             "en": {
@@ -34,7 +49,7 @@ class TypeScriptExporter:
                 "excerpt": raw_dict["en"]["excerpt"],
                 "keywords": raw_dict["en"]["keywords"],
                 "keyTakeaways": raw_dict["en"]["key_takeaways"],
-                "sections": raw_dict["en"]["sections"],
+                "sections": self._clean_sections(raw_dict["en"]["sections"]),
                 "categoryLabel": raw_dict["en"]["category_label"],
             },
         }
