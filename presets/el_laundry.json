@@ -44,5 +44,14 @@
     { "slug": "care-guides", "label_es": "Guías de Cuidado", "label_en": "Fabric Care Guides" },
     { "slug": "tips-and-life", "label_es": "Consejos y Ahorro", "label_en": "Tips & Life" }
   ],
-  "posts_per_week": 1.5
+  "posts_per_week": 1.5,
+  "visual_identity_inspo": {
+    "photoshoot_directory": "app-boilerplate/data/raw/creatives/interior-shots-2024",
+    "wiki_reference": "wiki/entities/interior-shots-2024",
+    "architecture": "High ceiling with exposed silver spiral HVAC ductwork, bright daylight flat-panel LED fixtures, polished light gray commercial tile floors, clean spacious aisles.",
+    "equipment": "Electrolux Professional commercial front-loaders with royal blue circular door rings and digital LED panels; double-stacked slate-gray commercial dryers.",
+    "counter_station": "Light wood-grain laminate counter with dark slate vertical paneling, certified digital flat weight scale, sealed poly-wrapped clean laundry stacks.",
+    "team_uniforms": "Navy blue or white crewneck t-shirts with official El Laundry branding; authentic friendly Hispanic staff reflecting Hialeah community.",
+    "negative_prompts": "rustic wood walls, dark dingy lighting, domestic white washers, top-loaders, graffiti, empty unstaffed facility, blonde models, retro European diner look"
+  }
 }

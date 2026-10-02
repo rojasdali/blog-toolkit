@@ -32,6 +32,7 @@ class BrandRuleset(BaseModel):
     author_name: str = "Editorial Team"
     categories: list[CategoryItem] = Field(default_factory=list)
     posts_per_week: float = 1.5
+    visual_identity_inspo: dict[str, str] = Field(default_factory=dict)
 
     @classmethod
     def from_file(cls, path: str | Path) -> "BrandRuleset":

@@ -35,6 +35,13 @@ DEFAULT_EL_LAUNDRY_IMAGES: list[dict[str, str | list[str]]] = [
         "category": "commercial",
     },
     {
+        "path": "/images/blog/wash-and-fold-counter-team.webp",
+        "alt_es": "Equipo de El Laundry en el mostrador de Lavado y Doblado en Hialeah",
+        "alt_en": "El Laundry team at the Wash & Fold drop-off counter in Hialeah",
+        "tags": ["wash-and-fold", "team", "counter", "scale", "drop-off", "hialeah", "sedanos"],
+        "category": "wash-and-fold",
+    },
+    {
         "path": "/images/blog/family-team-store-counter.webp",
         "alt_es": "Equipo familiar atendiendo amablemente en El Laundry",
         "alt_en": "Friendly family team assisting customers at El Laundry",
