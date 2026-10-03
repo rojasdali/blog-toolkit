@@ -1,0 +1,127 @@
+{
+  "nodes": [
+    {
+      "id": "authentic-photo-matching",
+      "title": "Authentic Photo Matching",
+      "type": "concept",
+      "summary": "# Authentic Photo Matching\n\n## Summary\nA deterministic matching engine that pairs generated article topics with authentic, high-resolution l"
+    },
+    {
+      "id": "aeo-key-takeaways",
+      "title": "AEO Key Takeaways",
+      "type": "concept",
+      "summary": "# AEO Key Takeaways\n\n## Summary\nAnswer Engine Optimization (AEO) rules require 3 to 5 structured, data-dense factual bullets summarizing eve"
+    },
+    {
+      "id": "blog-toolkit",
+      "title": "Blog Toolkit",
+      "type": "entity",
+      "summary": "# Blog Toolkit\n\n## Summary\nThe `blog-toolkit` is an agnostic, modular Python library for automated editorial planning, AI-assisted bilingual"
+    },
+    {
+      "id": "gemini-client",
+      "title": "Gemini Client",
+      "type": "entity",
+      "summary": "# Gemini Client\n\n## Summary\nThe Gemini client adapter wraps Google Generative AI APIs to produce structured JSON responses conforming to edi"
+    },
+    {
+      "id": "editorial-calendar",
+      "title": "Editorial Calendar",
+      "type": "system",
+      "summary": "# Editorial Calendar\n\n## Summary\nThe planning system schedules topics across calendar weeks, balancing primary keyword targets, seasonal tre"
+    },
+    {
+      "id": "typescript-export",
+      "title": "TypeScript Export",
+      "type": "system",
+      "summary": "# TypeScript Export\n\n## Summary\nThe serialization system compiles in-memory article objects into typed TypeScript code for direct inclusion "
+    }
+  ],
+  "edges": [
+    {
+      "source": "authentic-photo-matching",
+      "target": "blog-toolkit",
+      "type": "relates_to"
+    },
+    {
+      "source": "authentic-photo-matching",
+      "target": "typescript-export",
+      "type": "relates_to"
+    },
+    {
+      "source": "aeo-key-takeaways",
+      "target": "blog-toolkit",
+      "type": "relates_to"
+    },
+    {
+      "source": "aeo-key-takeaways",
+      "target": "gemini-client",
+      "type": "relates_to"
+    },
+    {
+      "source": "blog-toolkit",
+      "target": "gemini-client",
+      "type": "relates_to"
+    },
+    {
+      "source": "blog-toolkit",
+      "target": "authentic-photo-matching",
+      "type": "relates_to"
+    },
+    {
+      "source": "blog-toolkit",
+      "target": "aeo-key-takeaways",
+      "type": "relates_to"
+    },
+    {
+      "source": "blog-toolkit",
+      "target": "editorial-calendar",
+      "type": "relates_to"
+    },
+    {
+      "source": "blog-toolkit",
+      "target": "typescript-export",
+      "type": "relates_to"
+    },
+    {
+      "source": "gemini-client",
+      "target": "blog-toolkit",
+      "type": "relates_to"
+    },
+    {
+      "source": "gemini-client",
+      "target": "aeo-key-takeaways",
+      "type": "relates_to"
+    },
+    {
+      "source": "editorial-calendar",
+      "target": "blog-toolkit",
+      "type": "relates_to"
+    },
+    {
+      "source": "editorial-calendar",
+      "target": "typescript-export",
+      "type": "relates_to"
+    },
+    {
+      "source": "typescript-export",
+      "target": "blog-toolkit",
+      "type": "relates_to"
+    },
+    {
+      "source": "typescript-export",
+      "target": "authentic-photo-matching",
+      "type": "relates_to"
+    },
+    {
+      "source": "typescript-export",
+      "target": "editorial-calendar",
+      "type": "relates_to"
+    }
+  ],
+  "metadata": {
+    "built_at": "2026-10-03T16:53:46.774164",
+    "total_nodes": 6,
+    "total_edges": 16
+  }
+}

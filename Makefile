@@ -1,4 +1,7 @@
-.PHONY: test lint check format install clean
+.PHONY: test lint check format install clean graph
+
+graph:
+	python3 scripts/build_graph.py
 
 test:
 	pytest tests/ -v
