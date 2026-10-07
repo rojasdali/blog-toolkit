@@ -28,7 +28,9 @@ class BlogGenerator:
     def generate(self, req: GenerationRequest) -> BlogPost:
         """Generate, validate, and return a bilingual BlogPost."""
         # 1. Select or assign cover image
-        image_item = self.matcher.select_best_image(req.topic, req.category)
+        image_item = self.matcher.select_best_image(
+            req.topic, req.category, used_images=req.used_images
+        )
         image_path = req.image_override or image_item.path
 
         # 2. Build prompts

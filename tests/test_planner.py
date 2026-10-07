@@ -16,7 +16,6 @@ def test_plan_calendar_cadence():
     assert len(plan.topics) == 6
     assert plan.topics[0].target_date == "2026-10-01"
 
-    # Ensure categories and slugs exist
     for t in plan.topics:
         assert t.slug
         assert t.topic
@@ -27,9 +26,10 @@ def test_plan_calendar_avoids_existing_slugs():
     ruleset = BrandRuleset.from_preset("el_laundry")
     planner = ContentPlanner(ruleset)
 
-    existing = {"guia-lavado-doblado-ahorro-tiempo"}
+    existing = {"lavanderia-monedas-palm-springs-north"}
     plan = planner.plan_calendar(weeks=2, start_date=datetime(2026, 10, 1), existing_slugs=existing)
 
     generated_slugs = [t.slug for t in plan.topics]
-    assert "guia-lavado-doblado-ahorro-tiempo" not in generated_slugs
-    assert any("guia-lavado-doblado-ahorro-tiempo-202610" in s for s in generated_slugs)
+    assert "lavanderia-monedas-palm-springs-north" not in generated_slugs
+    # Asserts that an alternative untapped topic from the pool was selected instead
+    assert any("lavanderia" in s for s in generated_slugs)

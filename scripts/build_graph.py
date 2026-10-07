@@ -10,7 +10,7 @@ WIKILINK_RE = re.compile(r'\[\[([^\]|]+)(?:\|[^\]]*)?\]\]')
 
 
 def parse_md(path: str) -> tuple[dict, str]:
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         content = f.read()
     fm, body = {}, content
     if content.startswith("---") and len(content.split("---", 2)) >= 3:

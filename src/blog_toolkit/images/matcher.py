@@ -10,27 +10,42 @@ class ImageMatcher:
     def __init__(self, catalog: ImageCatalog):
         self.catalog = catalog
 
-    def select_best_image(self, topic: str, category: str) -> ImageItem:
-        """Find the most relevant image from the catalog."""
+    def _filter_unused(
+        self,
+        candidates: list[ImageItem],
+        used_set: set[str],
+    ) -> list[ImageItem]:
+        """Prioritize images not currently used by existing posts."""
+        unused = [img for img in candidates if img.path not in used_set]
+        return unused if unused else candidates
+
+    def select_best_image(
+        self,
+        topic: str,
+        category: str,
+        used_images: set[str] | list[str] | None = None,
+    ) -> ImageItem:
+        """Find the most relevant unique image from the catalog."""
         topic_lower = topic.lower()
+        used_set = set(used_images or [])
 
-        # 1. Exact category match
         cat_matches = [img for img in self.catalog.images if img.category == category]
-        for img in cat_matches:
+        pool = self._filter_unused(cat_matches, used_set) if cat_matches else self.catalog.images
+
+        for img in pool:
             for tag in img.tags:
                 if tag.lower() in topic_lower:
                     return img
-        if cat_matches:
-            return cat_matches[0]
+        if pool:
+            return pool[0]
 
-        # 2. Tag keyword matching
-        for img in self.catalog.images:
+        all_pool = self._filter_unused(self.catalog.images, used_set)
+        for img in all_pool:
             for tag in img.tags:
                 if tag.lower() in topic_lower:
                     return img
 
-        # 3. Fallback to first image
-        return self.catalog.images[0]
+        return all_pool[0] if all_pool else self.catalog.images[0]
 
     def generate_ai_image_prompt(
         self,

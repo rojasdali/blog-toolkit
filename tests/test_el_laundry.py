@@ -1,5 +1,7 @@
 """Tests for ElLaundryAdapter integration."""
 
+import pytest
+
 from blog_toolkit.adapters.el_laundry import ElLaundryAdapter
 
 
@@ -7,7 +9,6 @@ def test_el_laundry_adapter_reads_existing_slugs():
     adapter = ElLaundryAdapter()
     slugs = adapter.get_existing_slugs()
 
-    # If el-laundry-site/src/lib/blog/posts.ts exists, it should have the current live posts
     if adapter.posts_file.exists():
         assert len(slugs) > 0
         assert "lavado-doblado-hialeah-guia-completa" in slugs or len(slugs) >= 4
@@ -26,12 +27,12 @@ def test_el_laundry_adapter_plan_schedule():
 
 def test_el_laundry_adapter_curate_calls_generate(monkeypatch):
     adapter = ElLaundryAdapter()
-
     called = {}
 
-    def mock_generate_and_sync(topic, category, target_date=None, keywords=None):
+    def mock_generate_and_sync(topic, category, target_date=None, keywords=None, used_images=None):
         called["topic"] = topic
         called["category"] = category
+        called["used_images"] = used_images
         from blog_toolkit.core.types import BlogPost, BlogSection, PostLocaleContent
         return BlogPost(
             slug="test-curate",
@@ -62,3 +63,16 @@ def test_el_laundry_adapter_curate_calls_generate(monkeypatch):
     post = adapter.curate_next_post()
     assert post.slug == "test-curate"
     assert "topic" in called
+    assert "used_images" in called
+
+
+def test_el_laundry_adapter_rejects_duplicate_topic():
+    adapter = ElLaundryAdapter()
+    if adapter.posts_file.exists():
+        # Attempting to curate the exact same title as an existing post should raise ValueError
+        with pytest.raises(ValueError, match="rejected due to duplication"):
+            adapter.curate_next_post(
+                topic="Cuánto Tiempo Realmente Ahorras con el Servicio de Lavado y Doblado en Hialeah",
+                category="wash-and-fold",
+                keywords=["cuanto tiempo ahorras lavado y doblado", "wash and fold hialeah fl"],
+            )

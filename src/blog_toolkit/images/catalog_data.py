@@ -1,0 +1,88 @@
+"""Authenticated default brand photography catalog entries for El Laundry."""
+
+DEFAULT_EL_LAUNDRY_IMAGES: list[dict[str, str | list[str]]] = [
+    {
+        "path": "/images/blog/washers-commercial-electrolux.webp",
+        "alt_es": "Fila de lavadoras industriales Electrolux en El Laundry Hialeah",
+        "alt_en": "Commercial Electrolux washers lineup at El Laundry in Hialeah",
+        "tags": ["washers", "electrolux", "self-service", "machines", "comforters"],
+        "category": "self-service",
+    },
+    {
+        "path": "/images/blog/coin-laundry-savings.webp",
+        "alt_es": "Lavadoras de monedas eficientes y económicas en El Laundry",
+        "alt_en": "Efficient and affordable coin washers at El Laundry",
+        "tags": ["coin", "monedas", "savings", "self-service", "prices"],
+        "category": "self-service",
+    },
+    {
+        "path": "/images/blog/storefront-sedanos-plaza.webp",
+        "alt_es": "Fachada de El Laundry en la Plaza de Sedano's Hialeah",
+        "alt_en": "El Laundry storefront located in Sedano's Plaza Hialeah",
+        "tags": ["storefront", "sedanos", "parking", "self-service", "safe"],
+        "category": "self-service",
+    },
+    {
+        "path": "/images/blog/wash-and-fold-neat-stack.webp",
+        "alt_es": "Pilas de ropa perfectamente lavada, doblada y empaquetada",
+        "alt_en": "Neatly folded and packaged laundry ready for pickup",
+        "tags": ["wash-and-fold", "clothes", "folding", "service", "fluff"],
+        "category": "wash-and-fold",
+    },
+    {
+        "path": "/images/blog/wash-and-fold-counter-team.webp",
+        "alt_es": "Equipo de El Laundry en el mostrador de Lavado y Doblado en Hialeah",
+        "alt_en": "El Laundry team at the Wash & Fold drop-off counter in Hialeah",
+        "tags": ["wash-and-fold", "team", "counter", "scale", "drop-off", "hialeah"],
+        "category": "wash-and-fold",
+    },
+    {
+        "path": "/images/blog/miami-lakes-laundromat.webp",
+        "alt_es": "Mostrador de recepción para clientes de Miami Lakes y Hialeah",
+        "alt_en": "Reception drop-off counter for Miami Lakes and Hialeah clients",
+        "tags": ["wash-and-fold", "miami-lakes", "drop-off", "counter"],
+        "category": "wash-and-fold",
+    },
+    {
+        "path": "/images/blog/giant-comforter-washer-65lb.webp",
+        "alt_es": "Lavadora gigante de 65 libras lavando edredón King Size",
+        "alt_en": "Giant 65-pound commercial washer cleaning King size comforter",
+        "tags": ["comforters", "giant", "blankets", "quilts", "heavy", "edredon"],
+        "category": "comforters",
+    },
+    {
+        "path": "/images/blog/commercial-laundry-towels-airbnb.webp",
+        "alt_es": "Toallas blancas y sábanas para Airbnb y negocios locales",
+        "alt_en": "Fresh white towels and linens for Airbnb and commercial clients",
+        "tags": ["commercial", "airbnb", "towels", "business", "hospitality"],
+        "category": "commercial",
+    },
+    {
+        "path": "/images/blog/commercial-laundry-medley.webp",
+        "alt_es": "Servicio de lavandería de uniformes y mantelería para Medley y Hialeah",
+        "alt_en": "Commercial uniform and linen laundry service for Medley and Hialeah",
+        "tags": ["commercial", "medley", "uniforms", "restaurants", "workwear"],
+        "category": "commercial",
+    },
+    {
+        "path": "/images/blog/family-team-store-counter.webp",
+        "alt_es": "Equipo familiar atendiendo amablemente en El Laundry",
+        "alt_en": "Friendly family team assisting customers at El Laundry",
+        "tags": ["team", "family", "customer service", "hialeah"],
+        "category": "tips-and-life",
+    },
+    {
+        "path": "/images/blog/stain-removal-guide.webp",
+        "alt_es": "Tratamiento profesional de manchas difíciles en prendas textiles",
+        "alt_en": "Professional treatment of difficult fabric stains",
+        "tags": ["care-guides", "stains", "manchas", "care", "fabrics"],
+        "category": "care-guides",
+    },
+    {
+        "path": "/images/blog/liquid-vs-powder-detergent.webp",
+        "alt_es": "Selección de detergentes y suavizantes de alta gama en lavandería",
+        "alt_en": "Selection of premium detergents and softeners at laundromat",
+        "tags": ["care-guides", "detergent", "soap", "washing"],
+        "category": "care-guides",
+    },
+]

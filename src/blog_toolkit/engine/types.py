@@ -32,3 +32,23 @@ class GenerationRequest(BaseModel):
     target_date: str | None = None
     target_keywords: list[str] = Field(default_factory=list)
     image_override: str | None = None
+    used_images: list[str] = Field(default_factory=list)
+
+
+class ExistingPostSummary(BaseModel):
+    """Summary of an existing post parsed from posts.ts."""
+
+    slug: str
+    image: str = ""
+    category: str = ""
+    titles: list[str] = Field(default_factory=list)
+    keywords: list[str] = Field(default_factory=list)
+
+
+class StrikingKeyword(BaseModel):
+    """Search query ranking in striking distance."""
+
+    query: str
+    position: float = 0.0
+    impressions: int = 0
+    clicks: int = 0
