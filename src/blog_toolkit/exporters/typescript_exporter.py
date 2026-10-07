@@ -38,6 +38,8 @@ class TypeScriptExporter:
     def export(self, post: BlogPost) -> str:
         """Convert BlogPost to a TypeScript code snippet."""
         raw_dict = post.model_dump()
+        es_slug = raw_dict["es"].get("slug") or raw_dict["slug"]
+        en_slug = raw_dict["en"].get("slug") or raw_dict["slug"]
 
         # Format into clean camelCase TypeScript structure
         ts_obj = {
@@ -49,6 +51,7 @@ class TypeScriptExporter:
             "image": raw_dict["image"],
             "category": raw_dict["category"],
             "es": {
+                "slug": es_slug,
                 "title": raw_dict["es"]["title"],
                 "excerpt": raw_dict["es"]["excerpt"],
                 "keywords": raw_dict["es"]["keywords"],
@@ -57,6 +60,7 @@ class TypeScriptExporter:
                 "categoryLabel": raw_dict["es"]["category_label"],
             },
             "en": {
+                "slug": en_slug,
                 "title": raw_dict["en"]["title"],
                 "excerpt": raw_dict["en"]["excerpt"],
                 "keywords": raw_dict["en"]["keywords"],

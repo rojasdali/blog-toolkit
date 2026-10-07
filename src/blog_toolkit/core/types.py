@@ -15,6 +15,7 @@ class BlogSection(BaseModel):
 class PostLocaleContent(BaseModel):
     """Localized content for a single language."""
 
+    slug: str | None = Field(default=None, description="Localized URL slug")
     title: str = Field(description="SEO and conversion optimized title")
     excerpt: str = Field(description="1-2 sentence meta description/excerpt")
     keywords: list[str] = Field(default_factory=list, description="Target search keywords")
