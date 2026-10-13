@@ -45,3 +45,32 @@ def test_parse_existing_posts():
     used = get_used_images(posts)
     assert "/images/blog/img1.webp" in used
     assert "/images/blog/img2.webp" in used
+
+
+def test_parse_quoted_existing_posts():
+    sample_quoted = """
+    export const BLOG_POSTS = [
+      {
+      "slug": "fluff-and-fold-hialeah-ropa-por-libra",
+      "date": "2026-10-09",
+      "image": "/images/blog/wash-and-fold-neat-stack.webp",
+      "category": "wash-and-fold",
+      "es": {
+        "title": "Fluff and Fold en Hialeah",
+        "keywords": ["fluff and fold near me", "ropa por libra"]
+      },
+      "en": {
+        "title": "Fluff and Fold in Hialeah",
+        "keywords": ["wash and fold"]
+      }
+    }
+    ];
+    """
+    posts = parse_existing_posts(sample_quoted)
+    assert len(posts) == 1
+    assert posts[0].slug == "fluff-and-fold-hialeah-ropa-por-libra"
+    assert posts[0].category == "wash-and-fold"
+    assert posts[0].image == "/images/blog/wash-and-fold-neat-stack.webp"
+    assert "Fluff and Fold en Hialeah" in posts[0].titles
+    assert "fluff and fold near me" in posts[0].keywords
+

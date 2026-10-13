@@ -10,8 +10,9 @@ def test_el_laundry_adapter_reads_existing_slugs():
     slugs = adapter.get_existing_slugs()
 
     if adapter.posts_file.exists():
-        assert len(slugs) > 0
-        assert "lavado-doblado-hialeah-guia-completa" in slugs or len(slugs) >= 4
+        assert len(slugs) == 18
+        assert "fluff-and-fold-hialeah-ropa-por-libra" in slugs
+        assert "cuanto-tiempo-ahorras-lavado-doblado-hialeah" in slugs
 
 
 def test_el_laundry_adapter_plan_schedule():
