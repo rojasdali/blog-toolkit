@@ -20,7 +20,7 @@ class ContentPlanner:
         cat: str,
         current_dt: datetime,
         dedup: ContentDeduplicator,
-    ) -> PlannedTopic:
+    ) -> PlannedTopic | None:
         """Find the first topic in the pool that does not duplicate existing posts."""
         date_str = current_dt.strftime("%Y-%m-%d")
         for item in pool:
@@ -37,16 +37,25 @@ class ContentPlanner:
                     target_date=date_str,
                     rationale=str(item.get("rationale", "")),
                 )
-        pick = pool[0]
-        month_suffix = current_dt.strftime("%Y%m")
-        return PlannedTopic(
-            topic=str(pick["topic"]),
-            slug=f"{pick['slug']}-{month_suffix}",
-            category=cat,
-            target_keywords=list(pick["keywords"]),
-            target_date=date_str,
-            rationale=str(pick.get("rationale", "")),
-        )
+        return None
+
+    def _resolve_next_topic(
+        self,
+        cat: str,
+        current_dt: datetime,
+        dedup: ContentDeduplicator,
+    ) -> PlannedTopic | None:
+        """Find an untapped topic in preferred category or fallback categories."""
+        pool = TOPIC_IDEAS_POOL.get(cat, [])
+        planned = self._find_untapped_topic(pool, cat, current_dt, dedup)
+        if planned:
+            return planned
+        for alt_cat, alt_pool in TOPIC_IDEAS_POOL.items():
+            if alt_cat != cat:
+                planned = self._find_untapped_topic(alt_pool, alt_cat, current_dt, dedup)
+                if planned:
+                    return planned
+        return None
 
     def plan_calendar(
         self,
@@ -72,17 +81,23 @@ class ContentPlanner:
 
         for i in range(total_posts):
             cat = categories[i % len(categories)]
-            pool = TOPIC_IDEAS_POOL.get(cat, TOPIC_IDEAS_POOL.get("wash-and-fold", []))
-            planned = self._find_untapped_topic(pool, cat, current_dt, dedup)
-            topics.append(planned)
-            posts_summary.append(
-                ExistingPostSummary(
-                    slug=planned.slug,
-                    titles=[planned.topic],
-                    keywords=planned.target_keywords,
+            planned = self._resolve_next_topic(cat, current_dt, dedup)
+            if planned:
+                topics.append(planned)
+                posts_summary.append(
+                    ExistingPostSummary(
+                        slug=planned.slug,
+                        titles=[planned.topic],
+                        keywords=planned.target_keywords,
+                    )
                 )
+                current_dt += timedelta(days=days_between)
+
+        if not topics:
+            raise ValueError(
+                "All candidate topics in the editorial pool conflict with existing published posts. "
+                "Zero keyword cannibalization policy prevents generating duplicate or recycled posts."
             )
-            current_dt += timedelta(days=days_between)
 
         return ContentPlan(
             brand_name=self.ruleset.brand_name,

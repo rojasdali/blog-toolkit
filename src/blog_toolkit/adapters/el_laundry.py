@@ -71,8 +71,8 @@ class ElLaundryAdapter:
         r_top, r_cat, r_date, r_kws = self._resolve_topic(topic, category, target_date, keywords, existing)
         dedup = ContentDeduplicator(existing)
         is_dup, reason, _ = dedup.is_duplicate(r_top, r_kws, r_top.lower().replace(" ", "-"))
-        if is_dup and topic:
-            raise ValueError(f"Requested topic rejected due to duplication: {reason}")
+        if is_dup:
+            raise ValueError(f"Topic rejected due to cannibalization/duplication: {reason}")
         return self.generate_and_sync(
             topic=r_top,
             category=r_cat,
