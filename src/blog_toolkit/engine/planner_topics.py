@@ -5,7 +5,11 @@ TOPIC_IDEAS_POOL: dict[str, list[dict[str, str | list[str]]]] = {
         {
             "topic": "Lavandería con Máquinas de Monedas en Palm Springs North",
             "slug": "lavanderia-monedas-palm-springs-north",
-            "keywords": ["lavandería de monedas palm springs north", "coin laundromat near me", "laundromat palm springs north"],
+            "keywords": [
+                "lavandería de monedas palm springs north",
+                "coin laundromat palm springs north",
+                "laundromat palm springs north fl",
+            ],
             "rationale": "High-intent geo capture for Palm Springs North residents (7 mins away)",
         },
         {
@@ -23,22 +27,34 @@ TOPIC_IDEAS_POOL: dict[str, list[dict[str, str | list[str]]]] = {
     ],
     "wash-and-fold": [
         {
-            "topic": "Lavado y Doblado de Ropa Infantil y de Bebé con Detergentes Hipoalergénicos",
-            "slug": "lavado-doblado-ropa-infantil-bebe-hialeah",
-            "keywords": ["lavado ropa bebe hipoalergenico", "wash and fold ropa infantil hialeah", "detergente suave ropa ninos"],
-            "rationale": "High-trust family and baby clothes laundry capture",
+            "topic": "Lavado y Doblado para Personas Mayores y Seniors en Hialeah: Empaque Fácil por Cajón",
+            "slug": "lavado-doblado-personas-mayores-seniors-hialeah",
+            "keywords": [
+                "lavanderia para personas mayores hialeah",
+                "senior laundry service hialeah",
+                "doblado organizado por cajon",
+            ],
+            "rationale": "High-retention drop-off capture for seniors and caregivers in Hialeah",
         },
         {
-            "topic": "Servicio de Lavandería Express para Choferes y Trabajadores del Transporte en Hialeah",
-            "slug": "lavanderia-express-choferes-transporte-hialeah",
-            "keywords": ["lavanderia express camioneros choferes", "lavado rapido ropa trabajo transporte", "wash and fold choferes hialeah"],
-            "rationale": "Fast turnaround laundry capture for logistics and transport workers",
+            "topic": "Cómo Preparar tu Bolsa de Drop-Off por Primera Vez: Separación, Peso Mínimo y Preferencias",
+            "slug": "como-preparar-bolsa-drop-off-primera-vez",
+            "keywords": [
+                "como funciona servicio drop off lavanderia",
+                "first time wash and fold guide",
+                "preparar ropa lavado por libra",
+            ],
+            "rationale": "First-time drop-off customer conversion and onboarding guide",
         },
         {
-            "topic": "Servicio de Lavado y Doblado para Apartamentos y Condominios en West Hialeah",
-            "slug": "wash-and-fold-apartamentos-condominios-west-hialeah",
-            "keywords": ["lavanderia condominios hialeah", "wash and fold apartamentos west hialeah", "servicio drop off condominios"],
-            "rationale": "Multi-family condo and apartment resident drop-off capture",
+            "topic": "Lavado por Libra para Estudiantes y Profesionales con Horarios Rotativos en Miami-Dade",
+            "slug": "lavado-por-libra-estudiantes-turnos-rotativos-hialeah",
+            "keywords": [
+                "lavanderia para turnos rotativos hialeah",
+                "wash and fold busy professionals hialeah",
+                "entrega mismo dia antes 12pm",
+            ],
+            "rationale": "Same-day turnaround capture for shift workers and college students",
         },
     ],
     "comforters": [
@@ -69,10 +85,14 @@ TOPIC_IDEAS_POOL: dict[str, list[dict[str, str | list[str]]]] = {
             "rationale": "Event venue and banquet hall linen cleaning acquisition",
         },
         {
-            "topic": "Servicio de Lavandería para Restaurantes y Negocios en Medley, FL",
-            "slug": "lavanderia-restaurantes-negocios-medley-fl",
-            "keywords": ["lavandería comercial medley fl", "commercial laundry service medley", "restaurant linen cleaning"],
-            "rationale": "Commercial restaurant and hospitality linen acquisition in Medley",
+            "topic": "Lavado de Toallas de Microfibra para Car Wash y Talleres de Detailing en Hialeah",
+            "slug": "lavado-toallas-microfibra-car-wash-detailing-hialeah",
+            "keywords": [
+                "lavar toallas microfibra detailing hialeah",
+                "auto detailing towel laundry service",
+                "lavanderia comercial car wash miami",
+            ],
+            "rationale": "Commercial microfiber towel care for Hialeah auto detailing shops",
         },
     ],
     "care-guides": [

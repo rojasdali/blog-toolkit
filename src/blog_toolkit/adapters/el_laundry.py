@@ -6,7 +6,7 @@ from blog_toolkit.adapters.gsc_loader import fetch_live_striking_keywords
 from blog_toolkit.adapters.llms_sync import sync_post_to_llms_txt
 from blog_toolkit.core.ruleset import BrandRuleset
 from blog_toolkit.core.types import BlogPost
-from blog_toolkit.engine.deduplicator import ContentDeduplicator
+from blog_toolkit.engine.deduplicator import ContentDeduplicator, sanitize_post_keywords
 from blog_toolkit.engine.dynamic_keywords import pick_striking_topic
 from blog_toolkit.engine.generator import BlogGenerator
 from blog_toolkit.engine.inspector import get_used_images, parse_existing_posts
@@ -99,6 +99,7 @@ class ElLaundryAdapter:
             used_images=used_images or [],
         )
         post = generator.generate(req)
+        post = sanitize_post_keywords(post, self.get_existing_posts())
         if self.posts_file.exists():
             TypeScriptExporter().append_to_posts_file(post, str(self.posts_file))
             sync_post_to_llms_txt(self.site_root, post)
