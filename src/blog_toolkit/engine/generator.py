@@ -43,8 +43,7 @@ class BlogGenerator:
         # 4. Fill defaults if missing
         if "slug" not in raw_dict:
             raw_dict["slug"] = req.topic.lower().replace(" ", "-")
-        if "date" not in raw_dict:
-            raw_dict["date"] = req.target_date or datetime.now().strftime("%Y-%m-%d")
+        raw_dict["date"] = req.target_date or datetime.now().strftime("%Y-%m-%d")
         if "image" not in raw_dict:
             raw_dict["image"] = image_path
         if "author" not in raw_dict:
