@@ -51,7 +51,9 @@ def fetch_live_striking_keywords(
     try:
         from googleapiclient.discovery import build
 
-        url = site_url or os.getenv("GSC_SITE_URL", "sc-domain:el-laundry.com")
+        url = site_url or os.getenv("GSC_SITE_URL", "").strip()
+        if not url:
+            return []
         now = datetime.now()
         end_date = (now - timedelta(days=2)).strftime("%Y-%m-%d")
         start_date = (now - timedelta(days=days)).strftime("%Y-%m-%d")
