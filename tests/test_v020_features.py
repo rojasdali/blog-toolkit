@@ -10,7 +10,7 @@ from blog_toolkit.presets.el_laundry import get_el_laundry_profile
 
 
 def test_version_and_gemini_default_model(monkeypatch):
-    assert __version__ == "0.2.0"
+    assert __version__ == "0.2.1"
     monkeypatch.delenv("GEMINI_MODEL", raising=False)
     assert GeminiClient(api_key="k").model == "gemini-2.5-flash"
     monkeypatch.setenv("GEMINI_MODEL", "gemini-3.5-flash")
@@ -49,3 +49,38 @@ def test_cli_check_topic_blocks_pillar_and_neighborhood(capsys):
     out_clean = json.loads(capsys.readouterr().out)
     assert rc_clean == 0
     assert out_clean["approved"] is True
+
+
+def test_el_laundry_blocks_pr22_wrong_policies():
+    from blog_toolkit.core.types import BlogPost, BlogSection, PostLocaleContent
+
+    profile = get_el_laundry_profile()
+    bad_post = BlogPost(
+        slug="bad-policy-post",
+        image="/images/blog/wash-and-fold-counter-team.webp",
+        date="2026-11-10",
+        read_time_minutes=4,
+        author="Equipo El Laundry",
+        category="wash-and-fold",
+        es=PostLocaleContent(
+            title="Guía de prueba para lavado por libra en Hialeah",
+            excerpt="Deja antes de las 3:00 PM con mínimo 10 lbs de viernes a lunes.",
+            keywords=["kw"],
+            key_takeaways=["Takeaway suficientemente largo para pasar validacion"],
+            sections=[BlogSection(heading="H", paragraphs=["Usa código para $10 OFF."])],
+            category_label="Lavado y Doblado",
+        ),
+        en=PostLocaleContent(
+            title="Sample wash and fold guide in Hialeah Sedanos",
+            excerpt="Drop off before 3:00 PM with 10 lb min Friday through Monday.",
+            keywords=["kw"],
+            key_takeaways=["Sufficiently long key takeaway item for validation"],
+            sections=[BlogSection(heading="H", paragraphs=["Claim $10 OFF today."])],
+            category_label="Wash & Fold",
+        ),
+    )
+    violations = profile.validate_post(bad_post)
+    assert any("3:00 pm" in v.lower() for v in violations)
+    assert any("10 lb" in v.lower() for v in violations)
+    assert any("$10 off" in v.lower() for v in violations)
+    assert any("viernes a lunes" in v.lower() for v in violations)

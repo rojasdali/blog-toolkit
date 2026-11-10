@@ -1,92 +1,72 @@
-"""Curated and fallback topic ideas pool for content planning."""
+"""Curated and fallback topic ideas pool aligned to unserved 90-day GSC demand gaps."""
 
 from blog_toolkit.engine.planner_topics_b2b import B2B_AND_CARE_TOPICS
 
 RETAIL_TOPICS: dict[str, list[dict[str, str | list[str]]]] = {
     "self-service": [
         {
-            "topic": "Lavandería con Máquinas de Monedas en Palm Springs North",
-            "slug": "lavanderia-monedas-palm-springs-north",
+            "topic": "Lavandería en North Hialeah (W 52nd St): Autoservicio 65 lbs y Drop-Off $1/lb",
+            "slug": "lavanderia-north-hialeah-w-52nd-st",
             "keywords": [
-                "lavandería de monedas palm springs north",
-                "coin laundromat palm springs north",
-                "laundromat palm springs north fl",
+                "laundromat north hialeah",
+                "laundry drop off north hialeah",
+                "lavanderia norte de hialeah",
             ],
-            "rationale": "High-intent geo capture for Palm Springs North residents (7 mins away)",
+            "rationale": "209+ 90d GSC impressions across North Hialeah queries with zero dedicated page",
         },
         {
-            "topic": "Cómo Usar las Máquinas Gigantes de 65 lbs en Sedano's Plaza: Guía Paso a Paso",
+            "topic": "Cómo Usar Lavadoras Comerciales de 65 lbs en Sedano's Plaza: Guía de Carga y Ciclos",
             "slug": "guia-uso-lavadoras-gigantes-65-lbs-sedanos",
             "keywords": [
                 "como usar lavadoras grandes sedanos",
                 "instrucciones lavadoras 65 lbs",
-                "lavanderia autoservicio guia",
+                "lavanderia 65 libras capacidad",
             ],
-            "rationale": "High-intent operational guide for oversized self-service loads",
+            "rationale": "High-intent operational guide for oversized 65 lb (20 kg) self-service drums",
         },
         {
-            "topic": "Consejos para Lavar en Horas Nocturnas: Seguridad, Iluminación y Parqueo en Hialeah",
-            "slug": "consejos-lavar-horas-nocturnas-seguridad-hialeah",
+            "topic": "Consejos para Lavar después del Trabajo en Hialeah: Último Lavado 8 PM y Parqueo Iluminado",
+            "slug": "consejos-lavar-tarde-seguridad-parqueo-hialeah",
             "keywords": [
-                "lavar de noche hialeah",
-                "lavanderia segura noche",
-                "lavanderia iluminada hialeah",
+                "lavanderia abierta hasta las 9 pm hialeah",
+                "ultimo lavado 8 pm hialeah",
+                "lavanderia iluminada parqueo gratis",
             ],
-            "rationale": "Night-time and late-shift self-service laundry capture",
-        },
-    ],
-    "wash-and-fold": [
-        {
-            "topic": "Lavado y Doblado para Personas Mayores y Seniors en Hialeah: Empaque Fácil por Cajón",
-            "slug": "lavado-doblado-personas-mayores-seniors-hialeah",
-            "keywords": [
-                "lavanderia para personas mayores hialeah",
-                "senior laundry service hialeah",
-                "doblado organizado por cajon",
-            ],
-            "rationale": "High-retention drop-off capture for seniors and caregivers in Hialeah",
-        },
-        {
-            "topic": "Cómo Preparar tu Bolsa de Drop-Off por Primera Vez: Separación, Peso Mínimo y Preferencias",
-            "slug": "como-preparar-bolsa-drop-off-primera-vez",
-            "keywords": [
-                "como funciona servicio drop off lavanderia",
-                "first time wash and fold guide",
-                "preparar ropa lavado por libra",
-            ],
-            "rationale": "First-time drop-off customer conversion and onboarding guide",
-        },
-        {
-            "topic": "Lavado por Libra para Estudiantes y Profesionales con Horarios Rotativos en Miami-Dade",
-            "slug": "lavado-por-libra-estudiantes-turnos-rotativos-hialeah",
-            "keywords": [
-                "lavanderia para turnos rotativos hialeah",
-                "wash and fold busy professionals hialeah",
-                "entrega mismo dia antes 2pm",
-            ],
-            "rationale": "Same-day turnaround capture for shift workers and college students",
+            "rationale": "Post-work 4PM-8PM rush capture aligned with 8:00 PM Last Wash policy",
         },
     ],
     "comforters": [
         {
-            "topic": "Cómo Lavar Cortinas Pesadas y Blackout sin Romper la Tela ni Desgastar los Ojetes",
+            "topic": "Cómo Lavar Cortinas Pesadas y Blackout en Lavadoras de 65 lbs sin Dañar Ojetes",
             "slug": "como-lavar-cortinas-pesadas-blackout-lavanderia",
             "keywords": [
                 "lavar cortinas blackout lavanderia",
                 "lavadoras grandes cortinas pesadas",
-                "cuidado cortinas hialeah",
+                "cuidado cortinas gruesas hialeah",
             ],
-            "rationale": "Heavy drapery and blackout curtain deep clean capture",
+            "rationale": "Heavy drapery and blackout curtain deep-clean AEO capture",
         },
         {
-            "topic": "Guía para Lavar Almohadas de Pluma y Memory Foam en Lavadoras Comerciales",
-            "slug": "como-lavar-almohadas-pluma-memory-foam",
+            "topic": "Guía para Lavar Almohadas de Pluma y Protectores de Colchón en Tambores Comerciales",
+            "slug": "como-lavar-almohadas-pluma-protectores-colchon",
             "keywords": [
                 "lavar almohadas pluma lavanderia",
-                "desinfectar almohadas lavadora grande",
-                "como lavar memory foam",
+                "lavar protector de colchon acolchado",
+                "desinfectar almohadas lavadora 65 lbs",
             ],
-            "rationale": "Pillow sanitization and bulky bedding care capture",
+            "rationale": "Bulky bedding and mattress pad sanitization AEO capture",
+        },
+    ],
+    "wash-and-fold": [
+        {
+            "topic": "Servicio de Lavado por Volumen (Bulk Laundry) para Familias Grandes en North Hialeah",
+            "slug": "lavado-por-volumen-familias-north-hialeah",
+            "keywords": [
+                "bulk laundry service north hialeah",
+                "drop off laundry service north hialeah",
+                "lavado por libra familias grandes",
+            ],
+            "rationale": "Captures 117+ GSC impressions on North Hialeah bulk & drop-off queries",
         },
     ],
 }

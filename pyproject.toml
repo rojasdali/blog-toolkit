@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "blog-toolkit"
-version = "0.2.0"
+version = "0.2.1"
 description = "Agnostic, modular blog generation, content planning, and SEO/AEO publishing toolkit powered by Gemini AI."
 readme = "README.md"
 authors = [{ name = "Dali Rojas", email = "rojasdali@gmail.com" }]

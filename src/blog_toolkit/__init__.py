@@ -7,7 +7,7 @@ from blog_toolkit.engine.planner import ContentPlanner
 from blog_toolkit.engine.validator import validate_post_content
 from blog_toolkit.images.catalog import ImageCatalog
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __all__ = [
     "__version__",
     "BrandProfile",

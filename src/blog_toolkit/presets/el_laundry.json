@@ -12,7 +12,7 @@
     "parking": "Estacionamiento amplio y gratuito justo al frente",
     "phone": "(786) 803-8622",
     "hours": "Lun-Vie 8AM-9PM · Sáb-Dom 7AM-9PM (Último lavado 8:00 PM)",
-    "neighborhoods_served": ["Hialeah", "West Hialeah", "Miami Lakes", "Hialeah Gardens", "Palm Springs Mile"]
+    "neighborhoods_served": ["Hialeah", "North Hialeah", "West Hialeah", "Miami Lakes", "Hialeah Gardens", "Palm Springs Mile"]
   },
   "services": [
     "Lavado y Doblado (Wash & Fold) el mismo día dejando antes de las 2:00 PM ($1.00/lb Mar-Jue Especial de Mitad de Semana, $1.40/lb Lunes, $1.75/lb Vie-Dom; mínimo 15 lbs)",
@@ -37,7 +37,21 @@
     "wifi",
     "80 lbs",
     "$1.40/lb Lun-Jue",
-    "$1.40/lb Mon-Thu"
+    "$1.40/lb Mon-Thu",
+    "24 horas",
+    "open 24 hours",
+    "antes de las 3:00 pm",
+    "antes de las 3 pm",
+    "before 3:00 pm",
+    "before 3 pm",
+    "mínimo 10 lbs",
+    "minimo 10 lbs",
+    "10 lb min",
+    "10-lb min",
+    "$10 off",
+    "$10 de descuento",
+    "viernes a lunes",
+    "friday through monday"
   ],
   "primary_language": "es",
   "target_languages": ["es", "en"],
@@ -50,7 +64,7 @@
     { "slug": "care-guides", "label_es": "Guías de Cuidado", "label_en": "Fabric Care Guides" },
     { "slug": "tips-and-life", "label_es": "Consejos y Ahorro", "label_en": "Tips & Life" }
   ],
-  "posts_per_week": 1.5,
+  "posts_per_week": 1.0,
   "visual_identity_inspo": {
     "photoshoot_directory": "app-boilerplate/data/raw/creatives/interior-shots-2024",
     "wiki_reference": "wiki/entities/interior-shots-2024",
