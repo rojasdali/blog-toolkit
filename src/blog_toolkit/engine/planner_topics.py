@@ -5,14 +5,14 @@ from blog_toolkit.engine.planner_topics_b2b import B2B_AND_CARE_TOPICS
 RETAIL_TOPICS: dict[str, list[dict[str, str | list[str]]]] = {
     "self-service": [
         {
-            "topic": "Lavandería en North Hialeah (W 52nd St): Autoservicio 65 lbs y Drop-Off $1/lb",
-            "slug": "lavanderia-north-hialeah-w-52nd-st",
+            "topic": "Cuántas Cargas de Ropa Caben en una Lavadora de 65 lbs vs. 20 lbs: Guía de Ahorro",
+            "slug": "cuantas-cargas-caben-lavadora-65-lbs-vs-20-lbs",
             "keywords": [
-                "laundromat north hialeah",
-                "laundry drop off north hialeah",
-                "lavanderia norte de hialeah",
+                "cuanta ropa cabe en lavadora 65 libras",
+                "capacidad lavadora 20 kg en libras",
+                "cuantas cestas caben lavadora industrial",
             ],
-            "rationale": "209+ 90d GSC impressions across North Hialeah queries with zero dedicated page",
+            "rationale": "High-volume kg/lb drum sizing AEO & Featured Snippet demand",
         },
         {
             "topic": "Cómo Usar Lavadoras Comerciales de 65 lbs en Sedano's Plaza: Guía de Carga y Ciclos",
