@@ -37,24 +37,24 @@ RETAIL_TOPICS: dict[str, list[dict[str, str | list[str]]]] = {
     ],
     "comforters": [
         {
-            "topic": "Cómo Lavar Cortinas Pesadas y Blackout en Lavadoras de 65 lbs sin Dañar Ojetes",
-            "slug": "como-lavar-cortinas-pesadas-blackout-lavanderia",
+            "topic": "Cómo Lavar Alfombras Lavables (Ruggable) y Forros de Sofá en Tambores de 65 lbs",
+            "slug": "como-lavar-alfombras-lavables-forros-sofa-65-lbs",
             "keywords": [
-                "lavar cortinas blackout lavanderia",
-                "lavadoras grandes cortinas pesadas",
-                "cuidado cortinas gruesas hialeah",
+                "lavar alfombras lavables lavanderia",
+                "lavar forros de sofa muebles grandes",
+                "lavadora gigante para alfombras hialeah",
             ],
-            "rationale": "Heavy drapery and blackout curtain deep-clean AEO capture",
+            "rationale": "Machine-washable area rugs and slipcovers high-intent 65 lb drum AEO capture",
         },
         {
-            "topic": "Guía para Lavar Almohadas de Pluma y Protectores de Colchón en Tambores Comerciales",
-            "slug": "como-lavar-almohadas-pluma-protectores-colchon",
+            "topic": "Cómo Lavar Sacos de Dormir, Cobijas Pesadas (Weighted Blankets) y Mantas Polares",
+            "slug": "como-lavar-weighted-blankets-cobijas-pesadas-65-lbs",
             "keywords": [
-                "lavar almohadas pluma lavanderia",
-                "lavar protector de colchon acolchado",
-                "desinfectar almohadas lavadora 65 lbs",
+                "como lavar weighted blanket cobija pesada",
+                "lavar cobijas gruesas san marcos lavanderia",
+                "lavadora 65 lbs cobijas pesadas hialeah",
             ],
-            "rationale": "Bulky bedding and mattress pad sanitization AEO capture",
+            "rationale": "Heavy weighted blankets and San Marcos / plush mink blankets AEO & Hialeah household demand",
         },
     ],
     "wash-and-fold": [
