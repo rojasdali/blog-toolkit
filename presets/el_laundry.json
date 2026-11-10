@@ -15,10 +15,10 @@
     "neighborhoods_served": ["Hialeah", "West Hialeah", "Miami Lakes", "Hialeah Gardens", "Palm Springs Mile"]
   },
   "services": [
-    "Lavado y Doblado (Wash & Fold) el mismo día ($1.40/lb Lun-Jue, $1.75/lb Vie-Dom)",
-    "Lavadoras Gigantes Electrolux de hasta 65 lbs para edredones King/Queen y cobijas pesadas ($9-$20)",
-    "Servicio Comercial de Lavandería para Airbnb, barberías, salones de belleza y uniformes",
-    "Lavandería de Monedas (Autoservicio) moderna, rápida y con aire acondicionado"
+    "Lavado y Doblado (Wash & Fold) el mismo día dejando antes de las 2:00 PM ($1.00/lb Mar-Jue Especial de Mitad de Semana, $1.40/lb Lunes, $1.75/lb Vie-Dom; mínimo 15 lbs)",
+    "Lavadoras Gigantes Electrolux de hasta 65 lbs para edredones King/Queen y cobijas pesadas ($9-$20 en drop-off; $4.00-$8.50 en autoservicio)",
+    "Servicio Comercial de Lavandería B2B para Airbnb, peluquerías, spas, clínicas médicas, restaurantes y uniformes industriales",
+    "Lavandería de Monedas (Autoservicio) moderna, rápida y con aire acondicionado (secadoras a $0.25 por 5-10 min)"
   ],
   "key_differentiators": [
     "Negocio familiar 100% local con personal y administradora siempre presentes en tienda para ayudar",
@@ -31,7 +31,13 @@
     "tienda desatendida",
     "sin personal",
     "máquinas rotas",
-    "precios ocultos"
+    "precios ocultos",
+    "planchado",
+    "wi-fi",
+    "wifi",
+    "80 lbs",
+    "$1.40/lb Lun-Jue",
+    "$1.40/lb Mon-Thu"
   ],
   "primary_language": "es",
   "target_languages": ["es", "en"],

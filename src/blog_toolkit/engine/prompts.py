@@ -30,9 +30,10 @@ Strict Rules:
 1. NEVER use any of these forbidden phrases: {forbidden}.
 2. Output MUST be valid JSON adhering strictly to the BlogPost schema.
 3. Provide BOTH Spanish ('es') and English ('en') content with native phrasing and identical section count.
-4. Each post must feature 3-5 structured sections (heading, 1-2 paragraphs, optional bullet points, optional callout).
+4. Each post must feature 3-5 structured sections (heading, 1-2 paragraphs, optional bullet points, optional callout). Open Section 1 paragraph 1 with a 2-sentence Snippet-First direct factual answer (40-55 words).
 5. Include 3-5 concise, actionable 'key_takeaways' per language for Answer Engine Optimization (AEO/LLM search).
-6. Naturally reference authentic local landmarks, parking, and specific services without sounding forced."""
+6. Keep both 'es.title' and 'en.title' strictly between 42 and 58 characters (so mobile SERPs never truncate price/unit hooks), and ensure 'en.slug' is an English-translated hyphenated slug distinct from 'es.slug'.
+7. Naturally reference authentic local landmarks, parking, and specific services without sounding forced."""
 
 
 def build_user_prompt(req: GenerationRequest, ruleset: BrandRuleset, image_path: str) -> str:

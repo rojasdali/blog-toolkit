@@ -52,7 +52,7 @@ TOPIC_IDEAS_POOL: dict[str, list[dict[str, str | list[str]]]] = {
             "keywords": [
                 "lavanderia para turnos rotativos hialeah",
                 "wash and fold busy professionals hialeah",
-                "entrega mismo dia antes 12pm",
+                "entrega mismo dia antes 2pm",
             ],
             "rationale": "Same-day turnaround capture for shift workers and college students",
         },
@@ -79,7 +79,7 @@ TOPIC_IDEAS_POOL: dict[str, list[dict[str, str | list[str]]]] = {
             "rationale": "Medical and dental office scrubs and lab coat B2B capture",
         },
         {
-            "topic": "Lavado y Planchado de Manteles y Servilletas para Salones de Fiestas en Hialeah",
+            "topic": "Lavado y Doblado Profesional de Manteles y Servilletas para Salones de Fiestas en Hialeah",
             "slug": "lavanderia-manteles-salones-fiestas-hialeah",
             "keywords": ["lavanderia manteles fiestas hialeah", "lavado manteleria eventos", "manteles limpios salones hialeah"],
             "rationale": "Event venue and banquet hall linen cleaning acquisition",
