@@ -30,22 +30,53 @@ def test_brand_profile_configurable_fields_and_prompt():
     assert "laundry mat" in prompt
 
 
-def test_cli_check_topic_blocks_pillar_and_neighborhood(capsys):
+def test_cli_check_topic_blocks_pillar_and_neighborhood(tmp_path, capsys):
+    for rel, body in (
+        (
+            "src/lib/commercial/pillars.ts",
+            'export const PILLARS = [\n  {\n    slug: "restaurantes-manteleria-hialeah",\n    es: {\n      title: "Lavandería Comercial para Restaurantes y Mantelería",\n      keywords: ["lavanderia para restaurantes hialeah"],\n    },\n  },\n];\n',
+        ),
+        (
+            "src/lib/locations/neighborhoods.ts",
+            'export const NEIGHBORHOODS = [\n  {\n    slug: "lavanderia-cerca-de-opa-locka",\n    es: {\n      title: "Lavandería Cerca de Opa-locka",\n      metaTitle: "Lavandería Cerca de Opa-locka: $1/lb | El Laundry",\n    },\n  },\n];\n',
+        ),
+    ):
+        target = tmp_path / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(body, encoding="utf-8")
+
+    root = str(tmp_path)
     rc_pillar = main(
-        ["check-topic", "Lavandería comercial para restaurantes y mantelería", "--json"]
+        [
+            "check-topic",
+            "Lavandería comercial para restaurantes y mantelería",
+            "--site-root",
+            root,
+            "--json",
+        ]
     )
     out_pillar = json.loads(capsys.readouterr().out)
     assert rc_pillar == 1
     assert out_pillar["approved"] is False
     assert out_pillar["conflict"]["surface"] == "commercial"
 
-    rc_nbh = main(["--json", "check-topic", "Lavandería cerca de Opa-locka"])
+    rc_nbh = main(
+        ["--json", "check-topic", "Lavandería cerca de Opa-locka", "--site-root", root]
+    )
     out_nbh = json.loads(capsys.readouterr().out)
     assert rc_nbh == 1
     assert out_nbh["approved"] is False
     assert out_nbh["conflict"]["surface"] == "neighborhood"
 
-    rc_clean = main(["check-topic", "Cómo impermeabilizar chaquetas técnicas de lluvia", "--json"])
+    rc_clean = main(
+        [
+            "check-topic",
+            "Cómo impermeabilizar chaquetas técnicas de lluvia",
+            "--site-root",
+            root,
+            "--json",
+        ]
+    )
     out_clean = json.loads(capsys.readouterr().out)
     assert rc_clean == 0
     assert out_clean["approved"] is True
