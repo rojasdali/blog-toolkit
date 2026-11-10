@@ -16,7 +16,9 @@ def sync_post_to_llms_txt(site_root: Path, post: BlogPost) -> None:
     if es_file.exists():
         c_es = es_file.read_text(encoding="utf-8")
         if es_slug not in c_es:
-            entry = f"- [{post.es.title}](https://el-laundry.com/blog/{es_slug}): {post.es.excerpt}\n"
+            entry = (
+                f"- [{post.es.title}](https://el-laundry.com/blog/{es_slug}): {post.es.excerpt}\n"
+            )
             marker = "## Páginas de Servicios Comerciales (B2B)"
             if marker in c_es:
                 c_es = c_es.replace(marker, f"{entry}\n{marker}")

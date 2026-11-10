@@ -42,7 +42,9 @@ def test_pick_striking_topic_skips_covered_and_picks_untapped():
         # Already covered
         StrikingKeyword(query="commercial laundry service hialeah", position=11.2, impressions=18),
         # Untapped opportunity
-        StrikingKeyword(query="drop off laundry service miami lakes", position=14.0, impressions=12),
+        StrikingKeyword(
+            query="drop off laundry service miami lakes", position=14.0, impressions=12
+        ),
     ]
 
     picked = pick_striking_topic(keywords, existing, "2026-10-10")

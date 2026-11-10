@@ -31,9 +31,7 @@ def _get_gsc_credentials():
     if file_path and os.path.exists(file_path):
         try:
             scopes = ["https://www.googleapis.com/auth/webmasters.readonly"]
-            return service_account.Credentials.from_service_account_file(
-                file_path, scopes=scopes
-            )
+            return service_account.Credentials.from_service_account_file(file_path, scopes=scopes)
         except Exception as e:
             logger.debug("Failed loading credentials file: %s", e)
     return None
@@ -74,7 +72,9 @@ def fetch_live_striking_keywords(
             clicks = int(r.get("clicks", 0))
             q = str(r["keys"][0]).strip()
             if 8.0 <= pos <= 25.0 and impr >= 3:
-                keywords.append(StrikingKeyword(query=q, position=pos, impressions=impr, clicks=clicks))
+                keywords.append(
+                    StrikingKeyword(query=q, position=pos, impressions=impr, clicks=clicks)
+                )
         return keywords
     except Exception as e:
         logger.warning("Could not fetch GSC striking keywords: %s", e)

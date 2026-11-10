@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "blog-toolkit"
-version = "0.1.0"
+version = "0.2.0"
 description = "Agnostic, modular blog generation, content planning, and SEO/AEO publishing toolkit powered by Gemini AI."
 readme = "README.md"
 authors = [{ name = "Dali Rojas", email = "rojasdali@gmail.com" }]
@@ -14,16 +14,22 @@ dependencies = [
     "pydantic>=2.0.0",
     "python-dotenv>=1.0.0",
     "google-genai>=0.1.0",
+    "google-api-python-client>=2.100.0",
+    "google-auth>=2.22.0",
 ]
 
 [project.scripts]
 blog-toolkit = "blog_toolkit.cli:main"
+
+[tool.setuptools]
+include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
 "blog_toolkit" = ["presets/*.json"]
+"blog_toolkit.presets" = ["*.json"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

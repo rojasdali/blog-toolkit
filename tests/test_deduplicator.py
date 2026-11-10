@@ -11,7 +11,9 @@ from blog_toolkit.engine.types import ExistingPostSummary
 
 
 def test_token_normalization_and_similarity():
-    t1 = normalize_tokens("Cuánto Tiempo Realmente Ahorras con el Servicio de Lavado y Doblado en Hialeah")
+    t1 = normalize_tokens(
+        "Cuánto Tiempo Realmente Ahorras con el Servicio de Lavado y Doblado en Hialeah"
+    )
     t2 = normalize_tokens("Guía de Lavado y Doblado en Hialeah: Cuánto Tiempo Realmente Ahorras")
 
     sim = jaccard_similarity(t1, t2)
@@ -22,7 +24,9 @@ def test_deduplicator_catches_semantic_duplicates():
     existing = [
         ExistingPostSummary(
             slug="cuanto-tiempo-ahorras-lavado-doblado-hialeah",
-            titles=["Cuánto Tiempo Realmente Ahorras con el Servicio de Lavado y Doblado en Hialeah"],
+            titles=[
+                "Cuánto Tiempo Realmente Ahorras con el Servicio de Lavado y Doblado en Hialeah"
+            ],
             keywords=["cuanto tiempo ahorras lavado y doblado", "wash and fold hialeah fl"],
         )
     ]
@@ -43,7 +47,9 @@ def test_deduplicator_allows_unique_topics():
     existing = [
         ExistingPostSummary(
             slug="cuanto-tiempo-ahorras-lavado-doblado-hialeah",
-            titles=["Cuánto Tiempo Realmente Ahorras con el Servicio de Lavado y Doblado en Hialeah"],
+            titles=[
+                "Cuánto Tiempo Realmente Ahorras con el Servicio de Lavado y Doblado en Hialeah"
+            ],
             keywords=["cuanto tiempo ahorras lavado y doblado", "wash and fold hialeah fl"],
         )
     ]
@@ -89,7 +95,11 @@ def test_sanitize_post_keywords_strips_cannibalized_primary_keywords():
             slug="coin-laundromat-palm-springs-north",
             title="Coin Laundromat Near Palm Springs North",
             excerpt="Complete self-service coin laundromat guide for Palm Springs North residents.",
-            keywords=["coin laundromat near me", "coin laundromat palm springs north", "palm springs north laundry"],
+            keywords=[
+                "coin laundromat near me",
+                "coin laundromat palm springs north",
+                "palm springs north laundry",
+            ],
             key_takeaways=["Point 1", "Point 2", "Point 3"],
             sections=[sec, sec, sec],
             category_label="Self-Service",

@@ -73,4 +73,3 @@ def test_parse_quoted_existing_posts():
     assert posts[0].image == "/images/blog/wash-and-fold-neat-stack.webp"
     assert "Fluff and Fold en Hialeah" in posts[0].titles
     assert "fluff and fold near me" in posts[0].keywords
-

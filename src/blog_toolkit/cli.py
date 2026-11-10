@@ -3,111 +3,84 @@
 import argparse
 import sys
 
-from blog_toolkit.adapters.el_laundry import ElLaundryAdapter
-from blog_toolkit.core.ruleset import BrandRuleset
-from blog_toolkit.engine.generator import BlogGenerator
-from blog_toolkit.engine.planner import ContentPlanner
-from blog_toolkit.engine.types import GenerationRequest
-from blog_toolkit.exporters.json_exporter import JsonExporter
-from blog_toolkit.exporters.markdown_exporter import MarkdownExporter
-from blog_toolkit.exporters.typescript_exporter import TypeScriptExporter
+from blog_toolkit.cli_handlers import (
+    handle_check_topic,
+    handle_curate,
+    handle_generate,
+    handle_plan,
+)
 
 
-def _handle_plan(args: argparse.Namespace) -> int:
-    ruleset = BrandRuleset.from_preset(args.preset)
-    planner = ContentPlanner(ruleset)
-    plan = planner.plan_calendar(weeks=args.weeks)
-    print(f"\n📅 Content Plan for '{plan.brand_name}' ({plan.start_date} to {plan.end_date}):")
-    print(f"Cadence: {plan.cadence_per_week} posts/week (Total: {len(plan.topics)} posts)\n")
-    for i, t in enumerate(plan.topics, 1):
-        print(f"{i}. [{t.target_date}] ({t.category}) {t.topic}")
-        print(f"   Slug: /{t.slug}")
-        print(f"   Keywords: {', '.join(t.target_keywords)}")
-        print(f"   Rationale: {t.rationale}\n")
-    return 0
-
-
-def _handle_generate(args: argparse.Namespace) -> int:
-    ruleset = BrandRuleset.from_preset(args.preset)
-    generator = BlogGenerator(ruleset)
-    req = GenerationRequest(topic=args.topic, category=args.category, target_date=args.date)
-    post = generator.generate(req)
-
-    exporter_map = {
-        "ts": TypeScriptExporter().export,
-        "md": MarkdownExporter().export,
-        "json": JsonExporter().export,
-    }
-    output = exporter_map[args.format](post)
-
-    if args.out:
-        with open(args.out, "w", encoding="utf-8") as f:
-            f.write(output)
-        print(f"Saved post to {args.out}")
-    else:
-        print(output)
-    return 0
-
-
-def _handle_curate(args: argparse.Namespace) -> int:
-    adapter = ElLaundryAdapter(site_root=args.site_root)
-    post = adapter.curate_next_post(
-        topic=args.topic,
-        category=args.category,
-        target_date=args.date,
+def _shared_flags() -> argparse.ArgumentParser:
+    shared = argparse.ArgumentParser(add_help=False)
+    shared.add_argument(
+        "--json", action="store_true", default=argparse.SUPPRESS, help="Output structured JSON"
     )
-    print("\n✅ Successfully curated and synced blog post:")
-    print(f"   Slug: /{post.slug}")
-    print(f"   Category: {post.category}")
-    print(f"   Title (ES): {post.es.title}")
-    print(f"   Title (EN): {post.en.title}")
-    print(f"   Cover Image: {post.image}")
-    print(f"   Takeaways: {len(post.es.key_takeaways)} AEO points")
-    return 0
+    return shared
 
 
 def build_parser() -> argparse.ArgumentParser:
+    shared = _shared_flags()
     parser = argparse.ArgumentParser(
         prog="blog-toolkit",
-        description="Agnostic Blog Generation, Planning, and Publishing Toolkit.",
+        description="Agnostic Blog Generation, Planning, and Multi-Surface Gatekeeper Toolkit.",
     )
+    parser.add_argument("--json", action="store_true", help="Output structured JSON")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    # plan
-    plan_p = subparsers.add_parser("plan", help="Generate an editorial calendar plan.")
+    plan_p = subparsers.add_parser(
+        "plan", parents=[shared], help="Generate an editorial calendar plan."
+    )
     plan_p.add_argument("--preset", default="el_laundry", help="Brand preset name")
     plan_p.add_argument("--weeks", type=int, default=4, help="Number of weeks to plan")
 
-    # generate
-    gen_p = subparsers.add_parser("generate", help="Generate a blog post.")
+    gen_p = subparsers.add_parser("generate", parents=[shared], help="Generate a blog post.")
     gen_p.add_argument("--topic", required=True, help="Topic title to generate")
     gen_p.add_argument("--category", required=True, help="Category slug")
     gen_p.add_argument("--preset", default="el_laundry", help="Brand preset name")
     gen_p.add_argument("--date", default=None, help="Target publication date YYYY-MM-DD")
-    gen_p.add_argument("--format", choices=["ts", "md", "json"], default="ts", help="Format")
+    gen_p.add_argument("--format", choices=["ts", "md", "json"], default="ts", help="Output format")
     gen_p.add_argument("--out", default=None, help="Output destination file")
 
-    # curate
-    cur_p = subparsers.add_parser("curate", help="Curate and sync next post into Next.js app.")
+    cur_p = subparsers.add_parser(
+        "curate", parents=[shared], help="Curate and sync next post into Next.js app."
+    )
     cur_p.add_argument("--site-root", default=None, help="Path to Next.js site root")
     cur_p.add_argument("--topic", default=None, help="Optional topic title")
     cur_p.add_argument("--category", default=None, help="Optional category slug")
     cur_p.add_argument("--date", default=None, help="Optional publication date")
 
+    chk_p = subparsers.add_parser(
+        "check-topic",
+        parents=[shared],
+        help="Check candidate topic against blog posts, commercial pillars, and neighborhoods.",
+    )
+    chk_p.add_argument(
+        "topic_pos", nargs="?", default="", help="Candidate topic title, slug, or keyword"
+    )
+    chk_p.add_argument(
+        "--topic", dest="topic_opt", default="", help="Candidate topic title (flag form)"
+    )
+    chk_p.add_argument("--site-root", default=None, help="Path to Next.js site root")
+    chk_p.add_argument("--threshold", type=float, default=0.35, help="Jaccard similarity threshold")
+
     return parser
+
+
+HANDLERS = {
+    "plan": handle_plan,
+    "generate": handle_generate,
+    "curate": handle_curate,
+    "check-topic": handle_check_topic,
+}
 
 
 def main(args: list[str] | None = None) -> int:
     """CLI entrypoint."""
     parser = build_parser()
-    parsed = parser.parse_args(args or sys.argv[1:])
-
-    handlers = {
-        "plan": _handle_plan,
-        "generate": _handle_generate,
-        "curate": _handle_curate,
-    }
-    return handlers[parsed.command](parsed)
+    parsed = parser.parse_args(sys.argv[1:] if args is None else args)
+    parsed.json = getattr(parsed, "json", False)
+    return HANDLERS[parsed.command](parsed)
 
 
 if __name__ == "__main__":

@@ -38,14 +38,16 @@ def test_python_modularity_and_complexity():
             with open(path, encoding="utf-8") as fh:
                 lines = fh.readlines()
 
-            if len(lines) > MAX_LINES:
-                violations.append(f"{rel_path}: {len(lines)} lines exceeds max {MAX_LINES}")
+            if len(lines) >= MAX_LINES:
+                violations.append(f"{rel_path}: {len(lines)} lines must be strictly < {MAX_LINES}")
 
             tree = ast.parse("".join(lines), filename=path)
             for node in ast.walk(tree):
                 if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef):
                     c = _calculate_complexity(node)
                     if c > MAX_COMPLEXITY:
-                        violations.append(f"{rel_path}::{node.name}: complexity {c} exceeds max {MAX_COMPLEXITY}")
+                        violations.append(
+                            f"{rel_path}::{node.name}: complexity {c} exceeds max {MAX_COMPLEXITY}"
+                        )
 
     assert not violations, "Modularity violations found:\n" + "\n".join(violations)

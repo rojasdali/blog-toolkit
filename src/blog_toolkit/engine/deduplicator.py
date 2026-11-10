@@ -2,14 +2,13 @@
 
 import re
 
-from blog_toolkit.core.types import BlogPost
+from blog_toolkit.engine.keyword_sanitizer import sanitize_post_keywords
 from blog_toolkit.engine.types import ExistingPostSummary
 
-STOPWORDS: set[str] = {
-    "de", "en", "la", "el", "los", "las", "un", "una", "unos", "unas",
-    "con", "por", "para", "y", "o", "a", "del", "al",
-    "the", "in", "of", "and", "for", "to", "on", "with", "at", "by", "from",
-}
+STOPWORDS: set[str] = set(
+    "de en la el los las un una unos unas con por para y o a del al "
+    "the in of and for to on with at by from".split()
+)
 
 
 def normalize_tokens(text: str) -> set[str]:
@@ -19,7 +18,7 @@ def normalize_tokens(text: str) -> set[str]:
     for w in words:
         if w in STOPWORDS or len(w) <= 1:
             continue
-        if w.endswith("as") or w.endswith("es") or w.endswith("os"):
+        if w.endswith(("as", "es", "os")):
             w = w[:-2]
         elif w.endswith("s"):
             w = w[:-1]
@@ -85,31 +84,10 @@ class ContentDeduplicator:
         return False, "", None
 
 
-def _filter_locale_keywords(
-    keywords: list[str], used_kws: set[str], fallback_slug: str
-) -> list[str]:
-    """Strip any keyword that collides with existing posts and backfill from slug."""
-    cleaned: list[str] = []
-    seen: set[str] = set()
-    for kw in keywords:
-        norm = kw.lower().strip()
-        if norm and norm not in used_kws and norm not in seen:
-            cleaned.append(kw.strip())
-            seen.add(norm)
-    base_phrase = fallback_slug.replace("-", " ").strip()
-    for suffix in ["", " hialeah", " el laundry"]:
-        candidate = f"{base_phrase}{suffix}".strip()
-        if len(cleaned) < 3 and candidate.lower() not in used_kws and candidate.lower() not in seen:
-            cleaned.append(candidate)
-            seen.add(candidate.lower())
-    return cleaned
-
-
-def sanitize_post_keywords(
-    post: BlogPost, existing_posts: list[ExistingPostSummary]
-) -> BlogPost:
-    """Ensure generated post keywords never cannibalize any existing post's keywords."""
-    used_kws = {k.lower().strip() for p in existing_posts for k in p.keywords}
-    post.es.keywords = _filter_locale_keywords(post.es.keywords, used_kws, post.es.slug or post.slug)
-    post.en.keywords = _filter_locale_keywords(post.en.keywords, used_kws, post.en.slug or post.slug)
-    return post
+__all__ = [
+    "STOPWORDS",
+    "ContentDeduplicator",
+    "jaccard_similarity",
+    "normalize_tokens",
+    "sanitize_post_keywords",
+]

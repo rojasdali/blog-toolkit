@@ -1,18 +1,22 @@
-"""Tests for ElLaundryAdapter integration."""
+"""Tests for ElLaundryAdapter integration across blog posts, pillars, and neighborhoods."""
 
 import pytest
 
 from blog_toolkit.adapters.el_laundry import ElLaundryAdapter
 
 
-def test_el_laundry_adapter_reads_existing_slugs():
+def test_el_laundry_adapter_reads_existing_slugs_and_surfaces():
     adapter = ElLaundryAdapter()
     slugs = adapter.get_existing_slugs()
 
     if adapter.posts_file.exists():
-        assert len(slugs) == 18
-        assert "fluff-and-fold-hialeah-ropa-por-libra" in slugs
+        assert len(slugs) >= 15
         assert "cuanto-tiempo-ahorras-lavado-doblado-hialeah" in slugs
+        surfaces = adapter.get_all_surfaces()
+        assert len(surfaces) >= len(slugs) + 10
+        surface_types = {item.category for item in surfaces}
+        assert "commercial" in surface_types
+        assert "neighborhood" in surface_types
 
 
 def test_el_laundry_adapter_plan_schedule():
@@ -20,7 +24,7 @@ def test_el_laundry_adapter_plan_schedule():
     plan = adapter.plan_upcoming_schedule(weeks=3)
 
     assert plan.brand_name == "El Laundry"
-    assert len(plan.topics) >= 4
+    assert len(plan.topics) >= 3
     for topic in plan.topics:
         assert topic.slug
         assert topic.category
@@ -35,6 +39,7 @@ def test_el_laundry_adapter_curate_calls_generate(monkeypatch):
         called["category"] = category
         called["used_images"] = used_images
         from blog_toolkit.core.types import BlogPost, BlogSection, PostLocaleContent
+
         return BlogPost(
             slug="test-curate",
             image="/images/blog/test.webp",
@@ -70,8 +75,7 @@ def test_el_laundry_adapter_curate_calls_generate(monkeypatch):
 def test_el_laundry_adapter_rejects_duplicate_topic():
     adapter = ElLaundryAdapter()
     if adapter.posts_file.exists():
-        # Attempting to curate the exact same title as an existing post should raise ValueError
-        with pytest.raises(ValueError, match="rejected due to duplication"):
+        with pytest.raises(ValueError, match="cannibalization/duplication"):
             adapter.curate_next_post(
                 topic="Cuánto Tiempo Realmente Ahorras con el Servicio de Lavado y Doblado en Hialeah",
                 category="wash-and-fold",

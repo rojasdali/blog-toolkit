@@ -1,9 +1,9 @@
-"""Brand ruleset definitions and validation for blog generation."""
+"""Brand profile / ruleset definitions and preset loading for blog generation."""
 
 import json
 from pathlib import Path
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 from blog_toolkit.core.types import BlogPost
 
@@ -17,7 +17,7 @@ class CategoryItem(BaseModel):
 
 
 class BrandRuleset(BaseModel):
-    """Configurable brand voice, geographic context, and editorial rules."""
+    """Configurable brand voice, pricing facts, cutoff policies, and editorial guardrails."""
 
     brand_name: str
     tagline: str = ""
@@ -26,7 +26,10 @@ class BrandRuleset(BaseModel):
     location_context: dict[str, str | list[str]] = Field(default_factory=dict)
     services: list[str] = Field(default_factory=list)
     key_differentiators: list[str] = Field(default_factory=list)
+    forbidden_terms: list[str] = Field(default_factory=list)
     forbidden_phrases: list[str] = Field(default_factory=list)
+    pricing_facts: list[str] = Field(default_factory=list)
+    cutoff_time: str = ""
     primary_language: str = "es"
     target_languages: list[str] = Field(default_factory=lambda: ["es", "en"])
     author_name: str = "Editorial Team"
@@ -34,43 +37,45 @@ class BrandRuleset(BaseModel):
     posts_per_week: float = 1.5
     visual_identity_inspo: dict[str, str] = Field(default_factory=dict)
 
+    @model_validator(mode="after")
+    def _sync_forbidden_lists(self) -> "BrandRuleset":
+        merged: list[str] = []
+        seen: set[str] = set()
+        for term in [*self.forbidden_terms, *self.forbidden_phrases]:
+            key = term.strip().lower()
+            if key and key not in seen:
+                merged.append(term.strip())
+                seen.add(key)
+        self.forbidden_terms = list(merged)
+        self.forbidden_phrases = list(merged)
+        return self
+
+    def effective_forbidden_terms(self) -> list[str]:
+        """Return deduplicated union of forbidden terms and phrases."""
+        return list(self.forbidden_terms)
+
     @classmethod
     def from_file(cls, path: str | Path) -> "BrandRuleset":
-        """Load brand ruleset from a JSON file."""
+        """Load brand profile from a JSON file."""
         file_path = Path(path)
         if not file_path.exists():
             raise FileNotFoundError(f"Ruleset file not found: {file_path}")
         with open(file_path, encoding="utf-8") as f:
-            data = json.load(f)
-        return cls(**data)
+            return cls(**json.load(f))
 
     @classmethod
     def from_preset(cls, preset_name: str) -> "BrandRuleset":
-        """Load a built-in brand preset by name."""
-        pkg_presets = Path(__file__).resolve().parent.parent / "presets"
-        preset_file = pkg_presets / f"{preset_name}.json"
-        if not preset_file.exists():
-            base_dir = Path(__file__).resolve().parent.parent.parent.parent / "presets"
-            preset_file = base_dir / f"{preset_name}.json"
-        if not preset_file.exists():
-            raise FileNotFoundError(f"Preset '{preset_name}' not found at {preset_file}")
-        return cls.from_file(preset_file)
+        """Load a built-in brand preset from Python module or packaged JSON."""
+        from blog_toolkit.presets import get_preset_data
 
-    def validate_post(self, post: BlogPost) -> list[str]:
-        """Audit a generated post against brand rules and forbidden phrases."""
-        violations: list[str] = []
-        raw_text = (
-            f"{post.es.title} {post.es.excerpt} {post.en.title} {post.en.excerpt} "
-            f"{' '.join([s.heading + ' ' + ' '.join(s.paragraphs) for s in post.es.sections])} "
-            f"{' '.join([s.heading + ' ' + ' '.join(s.paragraphs) for s in post.en.sections])}"
-        ).lower()
+        data = get_preset_data(preset_name)
+        return cls(**data)
 
-        for forbidden in self.forbidden_phrases:
-            if forbidden.lower() in raw_text:
-                violations.append(f"Forbidden phrase detected: '{forbidden}'")
+    def validate_post(self, post: BlogPost, strict_aeo: bool = False) -> list[str]:
+        """Audit a generated post against brand profile rules and forbidden terms."""
+        from blog_toolkit.engine.validator import validate_post_content
 
-        valid_slugs = [c.slug for c in self.categories]
-        if valid_slugs and post.category not in valid_slugs:
-            violations.append(f"Unknown category '{post.category}'. Expected one of {valid_slugs}")
+        return validate_post_content(post, self, strict_aeo=strict_aeo)
 
-        return violations
+
+BrandProfile = BrandRuleset

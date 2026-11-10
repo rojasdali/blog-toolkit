@@ -3,6 +3,7 @@
 import json
 import os
 
+from blog_toolkit.core.config import resolve_gemini_model
 from blog_toolkit.core.types import BlogPost
 
 
@@ -11,7 +12,7 @@ class GeminiClient:
 
     def __init__(self, api_key: str | None = None, model: str | None = None):
         self.api_key = (api_key or os.getenv("GEMINI_API_KEY", "")).strip()
-        self.model = (model or os.getenv("GEMINI_MODEL") or "gemini-3.5-flash").strip()
+        self.model = resolve_gemini_model(model)
 
     def generate_post_json(self, system_prompt: str, user_prompt: str) -> dict:
         """Call Gemini to generate a post conforming to BlogPost schema."""
