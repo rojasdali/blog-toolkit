@@ -29,11 +29,18 @@ class ImageMatcher:
 
     def is_authentic_image(self, image_path: str) -> bool:
         """Return True only when normalized image_path exists in the catalog."""
+        if not isinstance(image_path, str):
+            return False
         normalized = image_path.strip()
         return bool(normalized) and normalized in {img.path for img in self.catalog.images}
 
     def validate_image_path(self, image_path: str) -> ImageItem:
         """Return the cataloged ImageItem or raise ValueError for uncataloged paths."""
+        if not isinstance(image_path, str) or not image_path.strip():
+            raise ValueError(
+                "Uncataloged or synthetic image path rejected by Zero Fake AI Policy: "
+                f"{image_path!r}"
+            )
         normalized = image_path.strip()
         for item in self.catalog.images:
             if item.path == normalized:

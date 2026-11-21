@@ -8,21 +8,28 @@ from blog_toolkit.engine.generator import BlogGenerator
 from blog_toolkit.engine.types import GenerationRequest
 
 
-def test_generator_with_mock_client():
-    ruleset = BrandRuleset.from_preset("el_laundry")
-    mock_client = MagicMock(spec=GeminiClient)
-
-    mock_client.generate_post_json.return_value = {
-        "slug": "guia-lavado-doblado-hialeah",
-        "date": "2026-10-05",
-        "read_time_minutes": 5,
-        "featured": True,
+def _sample_post_payload(
+    *,
+    slug: str,
+    date: str,
+    image: str,
+    category: str,
+    title_es: str,
+    title_en: str,
+    read_time_minutes: int = 5,
+    featured: bool = True,
+) -> dict:
+    return {
+        "slug": slug,
+        "date": date,
+        "read_time_minutes": read_time_minutes,
+        "featured": featured,
         "author": "Equipo El Laundry",
-        "image": "/images/blog/wash-and-fold-neat-stack.webp",
-        "category": "wash-and-fold",
+        "image": image,
+        "category": category,
         "es": {
-            "title": "Guía Completa de Lavado y Doblado en Hialeah",
-            "excerpt": "Descubre cómo ahorrar horas semanales dejando tu ropa en manos de profesionales.",
+            "title": title_es,
+            "excerpt": "Descubre cómo ahorrar horas semanales con lavado profesional.",
             "keywords": ["lavado y doblado", "hialeah"],
             "key_takeaways": ["Mismo día antes de las 2 PM", "Precios desde $1.40/lb"],
             "sections": [
@@ -36,8 +43,8 @@ def test_generator_with_mock_client():
             "category_label": "Lavado y Doblado",
         },
         "en": {
-            "title": "Complete Guide to Wash and Fold in Hialeah",
-            "excerpt": "Discover how to save hours every week by letting professionals handle your laundry.",
+            "title": title_en,
+            "excerpt": "Discover how to save hours every week with professional laundry care.",
             "keywords": ["wash and fold", "hialeah"],
             "key_takeaways": ["Same day before 2 PM", "Prices from $1.40/lb"],
             "sections": [
@@ -51,6 +58,19 @@ def test_generator_with_mock_client():
             "category_label": "Wash & Fold",
         },
     }
+
+
+def test_generator_with_mock_client():
+    ruleset = BrandRuleset.from_preset("el_laundry")
+    mock_client = MagicMock(spec=GeminiClient)
+    mock_client.generate_post_json.return_value = _sample_post_payload(
+        slug="guia-lavado-doblado-hialeah",
+        date="2026-10-05",
+        image="/images/blog/wash-and-fold-neat-stack.webp",
+        category="wash-and-fold",
+        title_es="Guía Completa de Lavado y Doblado en Hialeah",
+        title_en="Complete Guide to Wash and Fold in Hialeah",
+    )
 
     generator = BlogGenerator(ruleset=ruleset, client=mock_client)
     req = GenerationRequest(
@@ -70,46 +90,16 @@ def test_generator_with_mock_client():
 def test_generator_overrides_hallucinated_gemini_image():
     ruleset = BrandRuleset.from_preset("el_laundry")
     mock_client = MagicMock(spec=GeminiClient)
-
-    mock_client.generate_post_json.return_value = {
-        "slug": "lavado-edredon-king-hialeah",
-        "date": "2026-10-06",
-        "read_time_minutes": 4,
-        "featured": False,
-        "author": "Equipo El Laundry",
-        "image": "https://fake-ai.example/gen.png",
-        "category": "comforters",
-        "es": {
-            "title": "Cómo Lavar Edredones King en Hialeah",
-            "excerpt": "Lava tu edredón King en nuestras lavadoras industriales de 65 libras.",
-            "keywords": ["lavar edredon king", "hialeah"],
-            "key_takeaways": ["Lavadoras de 65 lbs", "Secado uniforme"],
-            "sections": [
-                {
-                    "heading": "Capacidad Industrial",
-                    "paragraphs": ["Espacio amplio para un lavado profundo y sin daños."],
-                    "bullets": ["Ciclo suave disponible"],
-                    "callout": "Visítanos en Sedano's Plaza.",
-                }
-            ],
-            "category_label": "Edredones",
-        },
-        "en": {
-            "title": "How to Wash King Comforters in Hialeah",
-            "excerpt": "Wash your King comforter in our 65-pound commercial washers.",
-            "keywords": ["wash king comforter", "hialeah"],
-            "key_takeaways": ["65 lb commercial washers", "Even drying"],
-            "sections": [
-                {
-                    "heading": "Commercial Capacity",
-                    "paragraphs": ["Ample drum space for deep cleaning without damage."],
-                    "bullets": ["Gentle cycle available"],
-                    "callout": "Visit us at Sedano's Plaza.",
-                }
-            ],
-            "category_label": "Comforters",
-        },
-    }
+    mock_client.generate_post_json.return_value = _sample_post_payload(
+        slug="lavado-edredon-king-hialeah",
+        date="2026-10-06",
+        image="https://fake-ai.example/gen.png",
+        category="comforters",
+        title_es="Cómo Lavar Edredones King en Hialeah",
+        title_en="How to Wash King Comforters in Hialeah",
+        read_time_minutes=4,
+        featured=False,
+    )
 
     generator = BlogGenerator(ruleset=ruleset, client=mock_client)
     req = GenerationRequest(

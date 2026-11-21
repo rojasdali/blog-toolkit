@@ -27,11 +27,13 @@ class BlogGenerator:
 
     def generate(self, req: GenerationRequest) -> BlogPost:
         """Generate, validate, and return a bilingual BlogPost."""
-        # 1. Select or assign cover image
-        image_item = self.matcher.select_best_image(
-            req.topic, req.category, used_images=req.used_images
-        )
-        image_path = req.image_override or image_item.path
+        # 1. Select or validate cover image under Zero Fake AI Policy
+        if req.image_override is not None:
+            image_path = self.matcher.validate_image_path(req.image_override).path
+        else:
+            image_path = self.matcher.select_best_image(
+                req.topic, req.category, used_images=req.used_images
+            ).path
 
         # 2. Build prompts
         system_prompt = build_system_prompt(self.ruleset)
@@ -40,14 +42,20 @@ class BlogGenerator:
         # 3. Call Gemini
         raw_dict = self.client.generate_post_json(system_prompt, user_prompt)
 
-        # 4. Fill defaults if missing
+        # 4. Fill defaults and enforce canonical authentic cover image
         if "slug" not in raw_dict:
             raw_dict["slug"] = req.topic.lower().replace(" ", "-")
         raw_dict["date"] = req.target_date or datetime.now().strftime("%Y-%m-%d")
-        if req.image_override or not self.matcher.is_authentic_image(
-            str(raw_dict.get("image", ""))
-        ):
+        if req.image_override is not None:
             raw_dict["image"] = image_path
+        else:
+            raw_image = raw_dict.get("image")
+            raw_dict["image"] = self.matcher.resolve_authentic_image(
+                req.topic,
+                req.category,
+                candidate_path=raw_image if isinstance(raw_image, str) else None,
+                used_images=req.used_images,
+            ).path
         if "author" not in raw_dict:
             raw_dict["author"] = self.ruleset.author_name
         if "category" not in raw_dict:

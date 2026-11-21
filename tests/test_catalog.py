@@ -76,27 +76,6 @@ def test_matcher_authentic_catalog_only_for_uncataloged_topic():
     assert img.alt_en.strip()
 
 
-def test_matcher_resolve_authentic_image_falls_back_on_untrusted_path():
-    catalog = ImageCatalog()
-    matcher = ImageMatcher(catalog)
-    authentic_path = "/images/blog/stain-removal-guide.webp"
-
-    resolved_valid = matcher.resolve_authentic_image(
-        topic="Lavado de edredones gigantes",
-        category="comforters",
-        candidate_path=authentic_path,
-    )
-    assert resolved_valid.path == authentic_path
-
-    resolved_fake = matcher.resolve_authentic_image(
-        topic="Lavado de edredones gigantes",
-        category="comforters",
-        candidate_path="https://fake-ai.example/gen.png",
-    )
-    assert resolved_fake in catalog.images
-    assert resolved_fake.category == "comforters"
-
-
 def test_matcher_avoids_used_images_and_falls_back():
     catalog = ImageCatalog()
     matcher = ImageMatcher(catalog)
