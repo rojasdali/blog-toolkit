@@ -44,7 +44,9 @@ class BlogGenerator:
         if "slug" not in raw_dict:
             raw_dict["slug"] = req.topic.lower().replace(" ", "-")
         raw_dict["date"] = req.target_date or datetime.now().strftime("%Y-%m-%d")
-        if "image" not in raw_dict:
+        if req.image_override or not self.matcher.is_authentic_image(
+            str(raw_dict.get("image", ""))
+        ):
             raw_dict["image"] = image_path
         if "author" not in raw_dict:
             raw_dict["author"] = self.ruleset.author_name

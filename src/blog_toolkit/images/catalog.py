@@ -11,7 +11,9 @@ class ImageCatalog:
     """Catalog of authenticated brand photography."""
 
     def __init__(self, images: list[ImageItem] | None = None):
-        self.images = images or [ImageItem(**img) for img in DEFAULT_EL_LAUNDRY_IMAGES]
+        self.images = (
+            images if images is not None else [ImageItem(**img) for img in DEFAULT_EL_LAUNDRY_IMAGES]
+        )
 
     @classmethod
     def from_file(cls, path: str | Path) -> "ImageCatalog":

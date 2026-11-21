@@ -17,7 +17,7 @@ Built for local businesses, e-commerce brands, and content sites needing a consi
 - **1–2x Weekly Calendar Planner**: Automatically schedules publication dates, category distributions, and high-intent keyword targets without colliding with existing post slugs.
 - **Answer Engine Optimization (AEO)**: Generates structured key takeaways, actionable tips, and modular section blocks specifically optimized for Google AI Overviews and LLMs.
 - **Bilingual Parallel Generation**: Generates native Spanish and English content side-by-side with identical section structures and local dialect precision.
-- **Authentic Image Catalog & Matcher**: Automatically maps topics to your authentic real-world photography catalog (e.g. store interior, machines, team, folding station) or generates precise photo prompts.
+- **Authentic Image Catalog & Matcher**: Automatically maps topics to your authentic real-world photography catalog (e.g. store interior, machines, team, folding station) under the Zero Fake AI Policy.
 - **Multi-Format Exporters**:
   - **Next.js / React TypeScript**: Drop-in compatible with frontend array stores (e.g. `src/lib/blog/posts.ts`).
   - **Markdown**: Includes YAML frontmatter for Astro, Hugo, Next.js MDX, or Obsidian.

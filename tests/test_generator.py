@@ -65,3 +65,61 @@ def test_generator_with_mock_client():
     assert post.read_time_minutes == 5
     assert len(post.es.sections) == 1
     assert post.word_count("es") > 10
+
+
+def test_generator_overrides_hallucinated_gemini_image():
+    ruleset = BrandRuleset.from_preset("el_laundry")
+    mock_client = MagicMock(spec=GeminiClient)
+
+    mock_client.generate_post_json.return_value = {
+        "slug": "lavado-edredon-king-hialeah",
+        "date": "2026-10-06",
+        "read_time_minutes": 4,
+        "featured": False,
+        "author": "Equipo El Laundry",
+        "image": "https://fake-ai.example/gen.png",
+        "category": "comforters",
+        "es": {
+            "title": "Cómo Lavar Edredones King en Hialeah",
+            "excerpt": "Lava tu edredón King en nuestras lavadoras industriales de 65 libras.",
+            "keywords": ["lavar edredon king", "hialeah"],
+            "key_takeaways": ["Lavadoras de 65 lbs", "Secado uniforme"],
+            "sections": [
+                {
+                    "heading": "Capacidad Industrial",
+                    "paragraphs": ["Espacio amplio para un lavado profundo y sin daños."],
+                    "bullets": ["Ciclo suave disponible"],
+                    "callout": "Visítanos en Sedano's Plaza.",
+                }
+            ],
+            "category_label": "Edredones",
+        },
+        "en": {
+            "title": "How to Wash King Comforters in Hialeah",
+            "excerpt": "Wash your King comforter in our 65-pound commercial washers.",
+            "keywords": ["wash king comforter", "hialeah"],
+            "key_takeaways": ["65 lb commercial washers", "Even drying"],
+            "sections": [
+                {
+                    "heading": "Commercial Capacity",
+                    "paragraphs": ["Ample drum space for deep cleaning without damage."],
+                    "bullets": ["Gentle cycle available"],
+                    "callout": "Visit us at Sedano's Plaza.",
+                }
+            ],
+            "category_label": "Comforters",
+        },
+    }
+
+    generator = BlogGenerator(ruleset=ruleset, client=mock_client)
+    req = GenerationRequest(
+        topic="Cómo Lavar Edredones King en Hialeah",
+        category="comforters",
+        target_date="2026-10-06",
+        image_override=None,
+    )
+    post = generator.generate(req)
+
+    assert post.image != "https://fake-ai.example/gen.png"
+    assert post.image.startswith("/images/blog/")
+    assert generator.matcher.is_authentic_image(post.image)

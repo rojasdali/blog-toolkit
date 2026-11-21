@@ -1,11 +1,19 @@
-"""Image matching logic and AI prompt generator for uncataloged topics."""
+"""Authentic brand photography matching logic under Zero Fake AI Policy."""
 
 from blog_toolkit.images.catalog import ImageCatalog
 from blog_toolkit.images.types import ImageItem
 
 
+def _first_tag_match(candidates: list[ImageItem], topic_lower: str) -> ImageItem | None:
+    """Return the first candidate image with a tag matching the lowercased topic."""
+    for img in candidates:
+        if any(tag.lower() in topic_lower for tag in img.tags):
+            return img
+    return None
+
+
 class ImageMatcher:
-    """Matches post topics to real brand photography or generates AI prompts."""
+    """Matches post topics strictly to authentic cataloged brand photography."""
 
     def __init__(self, catalog: ImageCatalog):
         self.catalog = catalog
@@ -19,52 +27,49 @@ class ImageMatcher:
         unused = [img for img in candidates if img.path not in used_set]
         return unused if unused else candidates
 
+    def is_authentic_image(self, image_path: str) -> bool:
+        """Return True only when normalized image_path exists in the catalog."""
+        normalized = image_path.strip()
+        return bool(normalized) and normalized in {img.path for img in self.catalog.images}
+
+    def validate_image_path(self, image_path: str) -> ImageItem:
+        """Return the cataloged ImageItem or raise ValueError for uncataloged paths."""
+        normalized = image_path.strip()
+        for item in self.catalog.images:
+            if item.path == normalized:
+                return item
+        raise ValueError(
+            f"Uncataloged or synthetic image path rejected by Zero Fake AI Policy: {image_path!r}"
+        )
+
     def select_best_image(
         self,
         topic: str,
         category: str,
         used_images: set[str] | list[str] | None = None,
     ) -> ImageItem:
-        """Find the most relevant unique image from the catalog."""
+        """Find the most relevant unique image from the authentic catalog."""
+        if not self.catalog.images:
+            raise ValueError(
+                "Authentic image catalog is empty; AI image generation is prohibited "
+                "under Zero Fake AI Policy."
+            )
         topic_lower = topic.lower()
         used_set = set(used_images or [])
 
         cat_matches = [img for img in self.catalog.images if img.category == category]
-        pool = self._filter_unused(cat_matches, used_set) if cat_matches else self.catalog.images
+        candidates = cat_matches if cat_matches else self.catalog.images
+        pool = self._filter_unused(candidates, used_set)
+        return _first_tag_match(pool, topic_lower) or pool[0]
 
-        for img in pool:
-            for tag in img.tags:
-                if tag.lower() in topic_lower:
-                    return img
-        if pool:
-            return pool[0]
-
-        all_pool = self._filter_unused(self.catalog.images, used_set)
-        for img in all_pool:
-            for tag in img.tags:
-                if tag.lower() in topic_lower:
-                    return img
-
-        return all_pool[0] if all_pool else self.catalog.images[0]
-
-    def generate_ai_image_prompt(
+    def resolve_authentic_image(
         self,
         topic: str,
         category: str,
-        brand_name: str,
-        visual_inspo: dict[str, str] | None = None,
-    ) -> str:
-        """Generate high-converting prompt for AI image generators if needed."""
-        inspo = visual_inspo or {}
-        equipment = inspo.get(
-            "equipment",
-            "High-end Electrolux commercial washers and dryers in the background"
-            if "laundry" in brand_name.lower()
-            else "modern professional commercial equipment in the background",
-        )
-        return (
-            f"Hyper-realistic editorial photo for '{brand_name}'. "
-            f"Scene: {topic}. {equipment}, "
-            f"warm natural lighting, sparkling clean interior, 8k resolution, documentary photography style, "
-            f"shot on Sony A7R V 35mm f/1.8, vibrant natural colors, authentic and inviting atmosphere."
-        )
+        candidate_path: str | None = None,
+        used_images: set[str] | list[str] | None = None,
+    ) -> ImageItem:
+        """Return the catalog match for candidate_path or fall back to select_best_image."""
+        if candidate_path and self.is_authentic_image(candidate_path):
+            return self.validate_image_path(candidate_path)
+        return self.select_best_image(topic, category, used_images=used_images)
