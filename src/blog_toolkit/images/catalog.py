@@ -22,8 +22,17 @@ class ImageCatalog:
         if not file_path.exists():
             return cls()
         with open(file_path, encoding="utf-8") as f:
-            data = json.load(f)
-        return cls(images=[ImageItem(**d) for d in data])
+            raw = json.load(f)
+        if not isinstance(raw, list):
+            raise ValueError(f"Image catalog JSON must be a list, got {type(raw).__name__}")
+        items: list[ImageItem] = []
+        for entry in raw:
+            if not isinstance(entry, dict):
+                raise ValueError("Image catalog entries must be JSON objects.")
+            if not str(entry.get("path") or "").strip():
+                continue
+            items.append(ImageItem(**entry))
+        return cls(images=items)
 
     def add_image(self, item: ImageItem) -> None:
         """Add image to catalog."""

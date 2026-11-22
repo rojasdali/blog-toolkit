@@ -1,9 +1,14 @@
 """Tests for ImageCatalog and ImageMatcher under Zero Fake AI Policy."""
 
+import json
+from pathlib import Path
+
 import pytest
+from pydantic import ValidationError
 
 from blog_toolkit.images.catalog import ImageCatalog
 from blog_toolkit.images.matcher import ImageMatcher
+from blog_toolkit.images.types import ImageItem
 
 
 def test_default_catalog_loads():
@@ -109,3 +114,31 @@ def test_default_catalog_entries_valid_paths_and_alt_text():
         assert img.alt_es.strip()
         assert img.alt_en.strip()
         assert len(img.tags) > 0
+
+
+def test_catalog_from_file_rejects_non_list_and_skips_empty_paths(tmp_path: Path):
+    bad_obj = tmp_path / "obj.json"
+    bad_obj.write_text(json.dumps({"images": []}), encoding="utf-8")
+    with pytest.raises(ValueError, match="must be a list"):
+        ImageCatalog.from_file(bad_obj)
+
+    bad_item = tmp_path / "bad_item.json"
+    bad_item.write_text(json.dumps(["not-a-dict"]), encoding="utf-8")
+    with pytest.raises(ValueError, match="JSON objects"):
+        ImageCatalog.from_file(bad_item)
+
+    mixed = tmp_path / "mixed.json"
+    mixed.write_text(
+        json.dumps([
+            {"path": "", "alt_es": "Vacio", "alt_en": "Empty"},
+            {"path": "   ", "alt_es": "Espacios", "alt_en": "Spaces"},
+            {"path": None, "alt_es": "Nulo", "alt_en": "Null"},
+            {"path": "/images/blog/valid.webp", "alt_es": "Valido", "alt_en": "Valid", "tags": ["valid"]},
+        ]),
+        encoding="utf-8",
+    )
+    loaded = ImageCatalog.from_file(mixed)
+    assert [img.path for img in loaded.images] == ["/images/blog/valid.webp"]
+
+    with pytest.raises((ValueError, ValidationError)):
+        ImageItem(path="  ", alt_es="a", alt_en="b")
